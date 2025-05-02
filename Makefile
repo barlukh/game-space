@@ -11,7 +11,9 @@ $(TARGET): $(SRCS)
 clean:
 	rm -f $(TARGET)
 
-run: $(TARGET)
+re: clean all
+
+run: clean all
 	./$(TARGET)
 
-.PHONY: all clean run
+.PHONY: all clean re run
