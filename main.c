@@ -113,14 +113,7 @@ int main(void)
 							
 							ClearBackground(BLACK);
 
-							DrawTexture(visuals.blueplanet, 1500, 200, WHITE);
-							DrawTexture(visuals.earth, 1792, 952, WHITE);
-							DrawTexture(visuals.purpleplanet, 600, 1300, WHITE);
-							DrawTexture(visuals.redplanet, 400, 500, WHITE);
 							DrawTexture(visuals.rocketwhite, 100, 1900, WHITE);
-							DrawTexture(visuals.satellite, 2050, 850, WHITE);
-							DrawTexture(visuals.saturn, 800, 100, WHITE);
-							DrawTexture(visuals.sun, 1000, 500, WHITE);
 							DrawTexture(visuals.whiteshootingstar, 1000, 300, WHITE);
 							DrawTexture(visuals.whitestar, 3500, 700, WHITE);
 							DrawTexture(visuals.whitestars1, 3000, 400, WHITE);
