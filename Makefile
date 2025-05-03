@@ -14,7 +14,4 @@ clean:
 
 re: clean all
 
-run: clean all
-	./$(TARGET)
-
 .PHONY: all clean re run
