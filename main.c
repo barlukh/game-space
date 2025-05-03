@@ -156,6 +156,20 @@ int main(void)
 						}
 						currentState = INTRO;
 					}
+
+					if (CheckCollisionCircleRec(bullets[i].position, 10, enemies[i].enemyRec))
+					{
+						bullets[i].active = false;
+						int randomSide[4][2] = {
+							{GetRandomValue(0, SCREEN_WIDTH), -150},
+							{GetRandomValue(0, SCREEN_WIDTH), SCREEN_HEIGHT + 150},
+							{-150, GetRandomValue(0, SCREEN_HEIGHT)},
+							{SCREEN_WIDTH + 150, GetRandomValue(0, SCREEN_HEIGHT)}
+						};
+						int randomPick = GetRandomValue(0, 3);
+						enemies[i].enemyPos.x = randomSide[randomPick][0];
+						enemies[i].enemyPos.y = randomSide[randomPick][1];
+					}
 				}
 			} break;
 
