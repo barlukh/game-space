@@ -4,12 +4,13 @@ TARGET = game
 SRCS = $(wildcard *.c)
 
 all: $(TARGET)
+	@./$(TARGET)
 
 $(TARGET): $(SRCS)
-	$(CC) $(SRCS) -o $(TARGET) $(CFLAGS)
+	@$(CC) $(SRCS) -o $(TARGET) $(CFLAGS)
 
 clean:
-	rm -f $(TARGET)
+	@rm -f $(TARGET)
 
 re: clean all
 
