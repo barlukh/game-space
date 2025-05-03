@@ -1,6 +1,4 @@
 #include "config.h"
-#include <math.h>
-#include <raylib.h>
 
 int main(void)
 {
@@ -12,116 +10,69 @@ int main(void)
 	SetTargetFPS(SCREEN_FPS);
 	SetWindowState(FLAG_FULLSCREEN_MODE);
 
-	// Initial textures, vectors, and rectangles
-	Visuals visuals;
-	visuals.blueplanet = LoadTexture("graphics/blueplanet.png");
-	visuals.earth = LoadTexture("graphics/earth.png");
-	visuals.fullmoon = LoadTexture("graphics/fullmoon.png");
-	visuals.hurricane = LoadTexture("graphics/hurricane.png");
-	visuals.purpleplanet = LoadTexture("graphics/purpleplanet.png");
-	visuals.redmoon = LoadTexture("graphics/redmoon.png");
-	visuals.redplanet = LoadTexture("graphics/redplanet.png");
-	visuals.rocketwhite = LoadTexture("graphics/rocketwhite.png");
-	visuals.satellite = LoadTexture("graphics/satellite.png");
-	visuals.saturn = LoadTexture("graphics/saturn.png");
-	visuals.sun = LoadTexture("graphics/sun.png");
-	visuals.whitemoon = LoadTexture("graphics/whitemoon.png");
-	visuals.whiteshootingstar = LoadTexture("graphics/whiteshootingstar.png");
-	visuals.whitestar = LoadTexture("graphics/whitestar.png");
-	visuals.whitestars1 = LoadTexture("graphics/whitestars1.png");
-	visuals.whitestars2 = LoadTexture("graphics/whitestars2.png");
-	visuals.yellowhalfmoon = LoadTexture("graphics/yellowhalfmoon.png");
-	visuals.yellowshootingstar = LoadTexture("graphics/yellowshootingstar.png");
-	visuals.yellowstar = LoadTexture("graphics/yellowstar.png");
-	visuals.yellowstars1 = LoadTexture("graphics/yellowstars1.png");
-	visuals.yellowstars2 = LoadTexture("graphics/yellowstars2.png");
+	// Space
+	Visuals space = textures_load(space);
+
+	// Player
+	Texture2D player = LoadTexture("graphics/astronaut1.png");
+	Vector2 playerPos = {SCREEN_WIDTH/2.0, SCREEN_HEIGHT/2.0};
+
+	// Enemy
+	int randomSide[4][2];
+	randomSide[0][0] = GetRandomValue(0, SCREEN_WIDTH);
+	randomSide[0][1] = -150;
+	randomSide[1][0] = GetRandomValue(0, SCREEN_WIDTH);
+	randomSide[1][1] = SCREEN_HEIGHT + 150;
+	randomSide[2][0] = -150;
+	randomSide[2][1] = GetRandomValue(0, SCREEN_HEIGHT);
+	randomSide[3][0] = SCREEN_WIDTH + 150;
+	randomSide[3][1] = GetRandomValue(0, SCREEN_HEIGHT);
 	
-	Texture2D astronaut = LoadTexture("graphics/astronaut1.png");
+	int randomPick = GetRandomValue(0, 3);
+	Vector2 enemyPos = {randomSide[randomPick][0], randomSide[randomPick][1]};
 
-	// initial for astronauts
-	Vector2 astronautPos = {SCREEN_WIDTH/2.0, SCREEN_HEIGHT/2.0};
-	int astronautSpeed = 20;
 
-	// bullets
+	// Bullets
 	Bullet bullets[MAX_BULLET] = {0};
 	float bulletSpeed = 30.0f;
 	int bulletTimer = 0;
 	int fireRate = 5;
 	Vector2 bulletDir = {1.0f, 0.0f};
 
-	// enemy
-	Vector2 enemyPos = {100, 100};
-	float enemySpeed = 10.0f;
-
-	Rectangle enemyRec = {enemyPos.x, enemyPos.y, visuals.purpleplanet.width, visuals.purpleplanet.height};
-	Rectangle astronautRec = {astronautPos.x, astronautPos.y, astronaut.width, astronaut.height};
+	// Rectangles
+	Rectangle playerRec = {playerPos.x, playerPos.y, player.width, player.height};
+	Rectangle enemyRec = {enemyPos.x, enemyPos.y, space.ufo.width, space.ufo.height};
 
 	while (!WindowShouldClose())
 	{
 		switch (currentState)
 		{
 			case INTRO:
-				intro(&currentState, visuals);
+				intro(&currentState, space);
 			break;
 
 			case GAMEPLAY:
 			{
-				if (IsKeyDown(KEY_A))
-					astronautPos.x -= astronautSpeed;
-				if (IsKeyDown(KEY_S))
-					astronautPos.y += astronautSpeed;
-				if (IsKeyDown(KEY_D))
-					astronautPos.x += astronautSpeed;
-				if (IsKeyDown(KEY_W))
-					astronautPos.y -= astronautSpeed;
+				controls_player(&playerPos, &player);
+				controls_bullets(&bulletDir);
 
-				if (astronautPos.x <= 0)
-					astronautPos.x = 0;
-				if (astronautPos.x > SCREEN_WIDTH - astronaut.width)
-					astronautPos.x = SCREEN_WIDTH - astronaut.width;
-				if (astronautPos.y <= 0)
-					astronautPos.y = 0;
-				if (astronautPos.y > SCREEN_HEIGHT - astronaut.height)
-					astronautPos.y = SCREEN_HEIGHT - astronaut.height;
-
-				if (IsKeyDown(KEY_RIGHT))
-					bulletDir = (Vector2){1.0f, 0.0f};
-				if (IsKeyDown(KEY_LEFT))
-					bulletDir = (Vector2){-1.0f, 0.0f};
-				if (IsKeyDown(KEY_UP))
-					bulletDir = (Vector2){0.0f, -1.0f};
-				if (IsKeyDown(KEY_DOWN))
-					bulletDir = (Vector2){0.0f, 1.0f};
-				if (IsKeyDown(KEY_RIGHT) && IsKeyDown(KEY_UP))
-					bulletDir = (Vector2){1.0f, -1.0f};
-				if (IsKeyDown(KEY_RIGHT) && IsKeyDown(KEY_DOWN))
-					bulletDir = (Vector2){1.0f, 1.0f};
-				if (IsKeyDown(KEY_LEFT) && IsKeyDown(KEY_DOWN))
-					bulletDir = (Vector2){-1.0f, 1.0f};
-				if (IsKeyDown(KEY_LEFT) && IsKeyDown(KEY_UP))
-					bulletDir = (Vector2){-1.0f, -1.0f};
-
-				Vector2 direction = { astronautPos.x - enemyPos.x, astronautPos.y - enemyPos.y };
+				Vector2 direction = { playerPos.x - enemyPos.x, playerPos.y - enemyPos.y };
 				float length = sqrtf(direction.x * direction.x + direction.y * direction.y);
 				if (length != 0)
 				{
 					direction.x /= length;
 					direction.y /= length;
 				}
-				enemyPos.x += direction.x * enemySpeed;
-				enemyPos.y += direction.y * enemySpeed;
+				enemyPos.x += direction.x * ENEMY_SPEED;
+				enemyPos.y += direction.y * ENEMY_SPEED;
 
 				enemyRec.x = enemyPos.x;
 				enemyRec.y = enemyPos.y;
 
-				astronautRec.x = astronautPos.x;
-				astronautRec.y = astronautPos.y;
+				playerRec.x = playerPos.x;
+				playerRec.y = playerPos.y;
 
-				if (CheckCollisionRecs(enemyRec, astronautRec))
-				{
-					currentState = INTRO;
-					break ;
-				}
+				
 				bulletTimer++;
 				if(bulletTimer >= fireRate)
 				{
@@ -129,7 +80,7 @@ int main(void)
 					{
 						if (!bullets[i].active)
 						{
-							bullets[i].position = (Vector2){astronautPos.x + astronaut.width, astronautPos.y + astronaut.height/2.0};
+							bullets[i].position = (Vector2){playerPos.x + player.width, playerPos.y + player.height/2.0};
 							bullets[i].direction = bulletDir;
 							bullets[i].active = true;
 							bulletTimer = 0;
@@ -151,17 +102,10 @@ int main(void)
 						
 						ClearBackground(BLACK);
 
-						DrawTexture(visuals.rocketwhite, 100, 1900, WHITE);
-						DrawTexture(visuals.whiteshootingstar, 1000, 300, WHITE);
-						DrawTexture(visuals.whitestar, 3500, 700, WHITE);
-						DrawTexture(visuals.whitestars1, 3000, 400, WHITE);
-						DrawTexture(visuals.whitestars2, 200, 1100, WHITE);
-						DrawTexture(visuals.yellowhalfmoon, 100, 100, WHITE);
-						DrawTexture(visuals.yellowshootingstar, 300, 150, WHITE);
-						DrawTexture(visuals.yellowstars1, 3650, 100, WHITE);
+						textures_draw(space);
 						
-						DrawTexture(astronaut, astronautPos.x, astronautPos.y, WHITE);
-						DrawTexture(visuals.purpleplanet, enemyPos.x, enemyPos.y, WHITE);
+						DrawTexture(player, playerPos.x, playerPos.y, WHITE);
+						DrawTexture(space.ufo, enemyPos.x, enemyPos.y, WHITE);
 						for (int i = 0; i < MAX_BULLET; i++)
 						{
 							if (bullets[i].active)
@@ -169,35 +113,24 @@ int main(void)
 						}
 					
 					EndDrawing();
-					} break;
+				if (CheckCollisionRecs(enemyRec, playerRec))
+				{
+					playerPos.x = SCREEN_WIDTH/2.0;
+					playerPos.y = SCREEN_HEIGHT/2.0;
+					randomPick = GetRandomValue(0, 3);
+					enemyPos.x = randomSide[randomPick][0];
+					enemyPos.y = randomSide[randomPick][1];
+					currentState = INTRO;
+				}
+				} break;
 					default: break;
 		}
 	}
 
 	// Clean up resources after exiting the game loop
-	UnloadTexture(visuals.blueplanet);
-	UnloadTexture(visuals.earth);
-	UnloadTexture(visuals.fullmoon);
-	UnloadTexture(visuals.hurricane);
-	UnloadTexture(visuals.purpleplanet);
-	UnloadTexture(visuals.redmoon);
-	UnloadTexture(visuals.redplanet);
-	UnloadTexture(visuals.rocketwhite);
-	UnloadTexture(visuals.satellite);
-	UnloadTexture(visuals.saturn);
-	UnloadTexture(visuals.sun);
-	UnloadTexture(visuals.whitemoon);
-	UnloadTexture(visuals.whiteshootingstar);
-	UnloadTexture(visuals.whitestar);
-	UnloadTexture(visuals.whitestars1);
-	UnloadTexture(visuals.whitestars2);
-	UnloadTexture(visuals.yellowhalfmoon);
-	UnloadTexture(visuals.yellowshootingstar);
-	UnloadTexture(visuals.yellowstar);
-	UnloadTexture(visuals.yellowstars1);
-	UnloadTexture(visuals.yellowstars2);
+	textures_unload(space);
 
-	UnloadTexture(astronaut);
+	UnloadTexture(player);
 
 	CloseWindow();
 
