@@ -1,4 +1,6 @@
 #include "config.h"
+#include <math.h>
+#include <raylib.h>
 
 int main(void)
 {
@@ -8,7 +10,7 @@ int main(void)
 	GameState currentState = INTRO;
 	InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, GAME_TITLE);
 	SetTargetFPS(SCREEN_FPS);
-	SetWindowState(FLAG_WINDOW_UNDECORATED);
+	SetWindowState(FLAG_FULLSCREEN_MODE);
 
 	// Initial textures, vectors, and rectangles
 	Visuals visuals;
@@ -42,10 +44,17 @@ int main(void)
 
 	// bullets
 	Bullet bullets[MAX_BULLET] = {0};
-	float bulletSpeed = 20.0f;
+	float bulletSpeed = 30.0f;
 	int bulletTimer = 0;
 	int fireRate = 5;
 	Vector2 bulletDir = {1.0f, 0.0f};
+
+	// enemy
+	Vector2 enemyPos = {100, 100};
+	float enemySpeed = 10.0f;
+
+	Rectangle enemyRec = {enemyPos.x, enemyPos.y, visuals.purpleplanet.width, visuals.purpleplanet.height};
+	Rectangle astronautRec = {astronautPos.x, astronautPos.y, astronaut.width, astronaut.height};
 
 	while (!WindowShouldClose())
 	{
@@ -83,7 +92,36 @@ int main(void)
 					bulletDir = (Vector2){0.0f, -1.0f};
 				if (IsKeyDown(KEY_DOWN))
 					bulletDir = (Vector2){0.0f, 1.0f};
+				if (IsKeyDown(KEY_RIGHT) && IsKeyDown(KEY_UP))
+					bulletDir = (Vector2){1.0f, -1.0f};
+				if (IsKeyDown(KEY_RIGHT) && IsKeyDown(KEY_DOWN))
+					bulletDir = (Vector2){1.0f, 1.0f};
+				if (IsKeyDown(KEY_LEFT) && IsKeyDown(KEY_DOWN))
+					bulletDir = (Vector2){-1.0f, 1.0f};
+				if (IsKeyDown(KEY_LEFT) && IsKeyDown(KEY_UP))
+					bulletDir = (Vector2){-1.0f, -1.0f};
 
+				Vector2 direction = { astronautPos.x - enemyPos.x, astronautPos.y - enemyPos.y };
+				float length = sqrtf(direction.x * direction.x + direction.y * direction.y);
+				if (length != 0)
+				{
+					direction.x /= length;
+					direction.y /= length;
+				}
+				enemyPos.x += direction.x * enemySpeed;
+				enemyPos.y += direction.y * enemySpeed;
+
+				enemyRec.x = enemyPos.x;
+				enemyRec.y = enemyPos.y;
+
+				astronautRec.x = astronautPos.x;
+				astronautRec.y = astronautPos.y;
+
+				if (CheckCollisionRecs(enemyRec, astronautRec))
+				{
+					currentState = INTRO;
+					break ;
+				}
 				bulletTimer++;
 				if(bulletTimer >= fireRate)
 				{
@@ -109,28 +147,28 @@ int main(void)
 							bullets[i].active = false;
 					}
 				}
-						BeginDrawing();
-							
-							ClearBackground(BLACK);
-
-							DrawTexture(visuals.rocketwhite, 100, 1900, WHITE);
-							DrawTexture(visuals.whiteshootingstar, 1000, 300, WHITE);
-							DrawTexture(visuals.whitestar, 3500, 700, WHITE);
-							DrawTexture(visuals.whitestars1, 3000, 400, WHITE);
-							DrawTexture(visuals.whitestars2, 200, 1100, WHITE);
-							DrawTexture(visuals.yellowhalfmoon, 100, 100, WHITE);
-							DrawTexture(visuals.yellowshootingstar, 300, 150, WHITE);
-							DrawTexture(visuals.yellowstars1, 3650, 100, WHITE);
-							
-							DrawTexture(astronaut, astronautPos.x, astronautPos.y, WHITE);
-				
-							for (int i = 0; i < MAX_BULLET; i++)
-							{
-								if (bullets[i].active)
-									DrawCircleV(bullets[i].position, 10, YELLOW);
-							}
+					BeginDrawing();
 						
-						EndDrawing();
+						ClearBackground(BLACK);
+
+						DrawTexture(visuals.rocketwhite, 100, 1900, WHITE);
+						DrawTexture(visuals.whiteshootingstar, 1000, 300, WHITE);
+						DrawTexture(visuals.whitestar, 3500, 700, WHITE);
+						DrawTexture(visuals.whitestars1, 3000, 400, WHITE);
+						DrawTexture(visuals.whitestars2, 200, 1100, WHITE);
+						DrawTexture(visuals.yellowhalfmoon, 100, 100, WHITE);
+						DrawTexture(visuals.yellowshootingstar, 300, 150, WHITE);
+						DrawTexture(visuals.yellowstars1, 3650, 100, WHITE);
+						
+						DrawTexture(astronaut, astronautPos.x, astronautPos.y, WHITE);
+						DrawTexture(visuals.purpleplanet, enemyPos.x, enemyPos.y, WHITE);
+						for (int i = 0; i < MAX_BULLET; i++)
+						{
+							if (bullets[i].active)
+								DrawCircleV(bullets[i].position, 10, YELLOW);
+						}
+					
+					EndDrawing();
 					} break;
 					default: break;
 		}

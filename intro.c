@@ -1,4 +1,5 @@
 #include "config.h"
+#include <stdio.h>
 
 void intro(GameState *currentState, Visuals visuals)
 {
@@ -27,5 +28,8 @@ void intro(GameState *currentState, Visuals visuals)
 	EndDrawing();
 
 	if (IsKeyPressed(KEY_ENTER))
+	{
+		printf("key pressed\n");
 		*currentState = GAMEPLAY;
+	}
 }
