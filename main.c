@@ -3,7 +3,7 @@
 int main(void)
 {
 	SetTraceLogLevel(LOG_NONE);
-	
+
 	// Initial screen and game configuration
 	GameState currentState = INTRO;
 	InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, GAME_TITLE);
@@ -14,23 +14,28 @@ int main(void)
 	Visuals space = textures_load(space);
 
 	// Player
-	Texture2D player = LoadTexture("graphics/astronaut1.png");
-	Vector2 playerPos = {SCREEN_WIDTH/2.0, SCREEN_HEIGHT/2.0};
+	Texture2D playerTex = LoadTexture("graphics/astronaut1.png");
+	Vector2 playerPos = {SCREEN_WIDTH / 2.0, SCREEN_HEIGHT / 2.0};
+	Rectangle playerRec = {playerPos.x, playerPos.y, playerTex.width, playerTex.height};
 
-	// Enemy
-	int randomSide[4][2];
-	randomSide[0][0] = GetRandomValue(0, SCREEN_WIDTH);
-	randomSide[0][1] = -150;
-	randomSide[1][0] = GetRandomValue(0, SCREEN_WIDTH);
-	randomSide[1][1] = SCREEN_HEIGHT + 150;
-	randomSide[2][0] = -150;
-	randomSide[2][1] = GetRandomValue(0, SCREEN_HEIGHT);
-	randomSide[3][0] = SCREEN_WIDTH + 150;
-	randomSide[3][1] = GetRandomValue(0, SCREEN_HEIGHT);
-	
-	int randomPick = GetRandomValue(0, 3);
-	Vector2 enemyPos = {randomSide[randomPick][0], randomSide[randomPick][1]};
+	// Enemies
+	Texture2D enemyTex = LoadTexture("graphics/ufo.png");
+	Enemy enemies[MAX_ENEMIES];
 
+	for (int i = 0; i < MAX_ENEMIES; i++)
+	{
+		int randomSide[4][2] = {
+			{GetRandomValue(0, SCREEN_WIDTH), -150},
+			{GetRandomValue(0, SCREEN_WIDTH), SCREEN_HEIGHT + 150},
+			{-150, GetRandomValue(0, SCREEN_HEIGHT)},
+			{SCREEN_WIDTH + 150, GetRandomValue(0, SCREEN_HEIGHT)}
+		};
+		int randomPick = GetRandomValue(0, 3);
+		enemies[i].enemyPos.x = randomSide[randomPick][0];
+		enemies[i].enemyPos.y = randomSide[randomPick][1];
+		enemies[i].enemyRec = (Rectangle){enemies[i].enemyPos.x, enemies[i].enemyPos.y, enemyTex.width, enemyTex.height};
+		enemies[i].enemyDir = (Vector2){playerPos.x - enemies[i].enemyPos.x, playerPos.y - enemies[i].enemyPos.y};
+	}
 
 	// Bullets
 	Bullet bullets[MAX_BULLET] = {0};
@@ -39,48 +44,50 @@ int main(void)
 	int fireRate = 5;
 	Vector2 bulletDir = {1.0f, 0.0f};
 
-	// Rectangles
-	Rectangle playerRec = {playerPos.x, playerPos.y, player.width, player.height};
-	Rectangle enemyRec = {enemyPos.x, enemyPos.y, space.ufo.width, space.ufo.height};
-
 	while (!WindowShouldClose())
 	{
 		switch (currentState)
 		{
 			case INTRO:
 				intro(&currentState, space);
-			break;
+				break;
 
 			case GAMEPLAY:
 			{
-				controls_player(&playerPos, &player);
+				controls_player(&playerPos, &playerTex);
 				controls_bullets(&bulletDir);
 
-				Vector2 direction = { playerPos.x - enemyPos.x, playerPos.y - enemyPos.y };
-				float length = sqrtf(direction.x * direction.x + direction.y * direction.y);
-				if (length != 0)
+				// Enemy movement updates
+				for (int i = 0; i < MAX_ENEMIES; i++)
 				{
-					direction.x /= length;
-					direction.y /= length;
-				}
-				enemyPos.x += direction.x * ENEMY_SPEED;
-				enemyPos.y += direction.y * ENEMY_SPEED;
+					enemies[i].enemyDir.x = playerPos.x - enemies[i].enemyPos.x;
+					enemies[i].enemyDir.y = playerPos.y - enemies[i].enemyPos.y;
 
-				enemyRec.x = enemyPos.x;
-				enemyRec.y = enemyPos.y;
+					float length = sqrtf(enemies[i].enemyDir.x * enemies[i].enemyDir.x + enemies[i].enemyDir.y * enemies[i].enemyDir.y);
+					if (length != 0)
+					{
+						enemies[i].enemyDir.x /= length;
+						enemies[i].enemyDir.y /= length;
+					}
+					enemies[i].enemyPos.x += enemies[i].enemyDir.x * ENEMY_SPEED;
+					enemies[i].enemyPos.y += enemies[i].enemyDir.y * ENEMY_SPEED;
+
+					enemies[i].enemyRec.x = enemies[i].enemyPos.x;
+					enemies[i].enemyRec.y = enemies[i].enemyPos.y;
+				}
 
 				playerRec.x = playerPos.x;
 				playerRec.y = playerPos.y;
 
-				
+				// Bullet firing mechanism
 				bulletTimer++;
-				if(bulletTimer >= fireRate)
+				if (bulletTimer >= fireRate)
 				{
 					for (int i = 0; i < MAX_BULLET; i++)
 					{
 						if (!bullets[i].active)
 						{
-							bullets[i].position = (Vector2){playerPos.x + player.width, playerPos.y + player.height/2.0};
+							bullets[i].position = (Vector2){playerPos.x + playerTex.width, playerPos.y + playerTex.height / 2.0};
 							bullets[i].direction = bulletDir;
 							bullets[i].active = true;
 							bulletTimer = 0;
@@ -88,50 +95,79 @@ int main(void)
 						}
 					}
 				}
+
+				// Bullet movement
 				for (int i = 0; i < MAX_BULLET; i++)
 				{
 					if (bullets[i].active)
 					{
 						bullets[i].position.x += bullets[i].direction.x * bulletSpeed;
 						bullets[i].position.y += bullets[i].direction.y * bulletSpeed;
-						if (bullets[i].position.x < 0 || bullets[i].position.x > SCREEN_WIDTH || bullets[i].position.y < 0 || bullets[i].position.y > SCREEN_HEIGHT)
+						if (bullets[i].position.x < 0 || bullets[i].position.x > SCREEN_WIDTH ||
+							bullets[i].position.y < 0 || bullets[i].position.y > SCREEN_HEIGHT)
+						{
 							bullets[i].active = false;
+						}
 					}
 				}
-					BeginDrawing();
-						
-						ClearBackground(BLACK);
 
-						textures_draw(space);
-						
-						DrawTexture(player, playerPos.x, playerPos.y, WHITE);
-						DrawTexture(space.ufo, enemyPos.x, enemyPos.y, WHITE);
-						for (int i = 0; i < MAX_BULLET; i++)
-						{
-							if (bullets[i].active)
-								DrawCircleV(bullets[i].position, 10, YELLOW);
-						}
-					
-					EndDrawing();
-				if (CheckCollisionRecs(enemyRec, playerRec))
+				// Drawing
+				BeginDrawing();
+
+				ClearBackground(BLACK);
+				textures_draw(space);
+
+				DrawTexture(playerTex, playerPos.x, playerPos.y, WHITE);
+
+				for (int i = 0; i < MAX_ENEMIES; i++)
 				{
-					playerPos.x = SCREEN_WIDTH/2.0;
-					playerPos.y = SCREEN_HEIGHT/2.0;
-					randomPick = GetRandomValue(0, 3);
-					enemyPos.x = randomSide[randomPick][0];
-					enemyPos.y = randomSide[randomPick][1];
-					currentState = INTRO;
+					DrawTexture(enemyTex, enemies[i].enemyPos.x, enemies[i].enemyPos.y, WHITE);
 				}
-				} break;
-					default: break;
+
+				for (int i = 0; i < MAX_BULLET; i++)
+				{
+					if (bullets[i].active)
+					{
+						DrawCircleV(bullets[i].position, 10, YELLOW);
+					}
+				}
+
+				EndDrawing();
+
+				// Collision detection for all enemies
+				for (int i = 0; i < MAX_ENEMIES; i++)
+				{
+					if (CheckCollisionRecs(enemies[i].enemyRec, playerRec))
+					{
+						playerPos.x = SCREEN_WIDTH / 2.0;
+						playerPos.y = SCREEN_HEIGHT / 2.0;
+						
+						for (int i = 0; i < MAX_ENEMIES; i++)
+						{
+							int randomSide[4][2] = {
+								{GetRandomValue(0, SCREEN_WIDTH), -150},
+								{GetRandomValue(0, SCREEN_WIDTH), SCREEN_HEIGHT + 150},
+								{-150, GetRandomValue(0, SCREEN_HEIGHT)},
+								{SCREEN_WIDTH + 150, GetRandomValue(0, SCREEN_HEIGHT)}
+							};
+							int randomPick = GetRandomValue(0, 3);
+							enemies[i].enemyPos.x = randomSide[randomPick][0];
+							enemies[i].enemyPos.y = randomSide[randomPick][1];
+						}
+						currentState = INTRO;
+					}
+				}
+			} break;
+
+			default:
+				break;
 		}
 	}
 
 	// Clean up resources after exiting the game loop
 	textures_unload(space);
-
-	UnloadTexture(player);
-
+	UnloadTexture(playerTex);
+	UnloadTexture(enemyTex);
 	CloseWindow();
 
 	return 0;

@@ -10,7 +10,7 @@ void textures_unload(Visuals space)
 	UnloadTexture(space.satellite);
 	UnloadTexture(space.saturn);
 	UnloadTexture(space.sun);
-	UnloadTexture(space.ufo);
+	UnloadTexture(space.text);
 	UnloadTexture(space.whiteshootingstar);
 	UnloadTexture(space.whitestar);
 	UnloadTexture(space.whitestars1);
