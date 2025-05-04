@@ -23,7 +23,6 @@ void check_collisions(Enemy *enemies, Vector2 *playerPos, Rectangle playerRec, i
 			}
 			
 			*currentState = INTRO;
-			*score = 0;
 		}
 	}
 

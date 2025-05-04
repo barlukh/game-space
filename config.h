@@ -83,7 +83,7 @@ typedef struct Visuals {
 // Function Prototypes
 //----------------------------------------------------------------------------------
 
-void intro(GameState *currentState, Visuals space);
+void intro(GameState *currentState, Visuals space, int *score);
 void controls_bullets(Vector2 *bulletDir);
 void controls_player(Vector2 *playerPos, Texture2D player);
 void check_collisions(Enemy *enemies, Vector2 *playerPos, Rectangle playerRec, int randomPick, int randomSide[4][2], GameState *currentState, Bullet *bullets, SpawnCounter *spawn, int *score);

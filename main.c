@@ -54,7 +54,7 @@ int main(void)
 		switch (currentState)
 		{
 			case INTRO:
-				intro(&currentState, space);
+				intro(&currentState, space, &score);
 				break;
 
 			case GAMEPLAY:
