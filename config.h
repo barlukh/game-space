@@ -61,6 +61,7 @@ typedef struct Visuals {
 	Texture2D blueplanet;
 	Texture2D earth;
 	Texture2D enemy;
+	Texture2D explosion;
 	Texture2D player;
 	Texture2D purpleplanet;
 	Texture2D redplanet;
@@ -86,7 +87,7 @@ typedef struct Visuals {
 void intro(GameState *currentState, Visuals space, int *score);
 void controls_bullets(Vector2 *bulletDir);
 void controls_player(Vector2 *playerPos, Texture2D player);
-void check_collisions(Enemy *enemies, Vector2 *playerPos, Rectangle playerRec, int randomPick, int randomSide[4][2], GameState *currentState, Bullet *bullets, SpawnCounter *spawn, int *score);
+void check_collisions(Enemy *enemies, Vector2 *playerPos, Rectangle playerRec, int randomPick, int randomSide[4][2], GameState *currentState, Bullet *bullets, SpawnCounter *spawn, int *score, Visuals space);
 void randomizer(int randomSide[4][2]);
 void textures_draw(Visuals space, Texture2D playerTex, Vector2 playerPos, Texture2D enemyTex, Enemy *enemies, SpawnCounter spawn, int *score);
 Visuals textures_load(Visuals space);

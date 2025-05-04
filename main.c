@@ -124,12 +124,16 @@ int main(void)
 								bullets[i].active = false;
 					}
 				}
-
+				
+				// Collision detection
+				check_collisions(enemies, &playerPos, playerRec, randomPick, randomSide, &currentState, bullets, &spawn, &score, space);
+				
 				// Drawing
 				BeginDrawing();
-
+				
 					ClearBackground(BLACK);
 					textures_draw(space, playerTex[time.frame], playerPos, enemyTex, enemies, spawn, &score);
+
 
 					for (int i = 0; i < MAX_BULLETS; i++) {
 						if (bullets[i].active)
@@ -138,8 +142,6 @@ int main(void)
 
 				EndDrawing();
 
-				// Collision detection
-				check_collisions(enemies, &playerPos, playerRec, randomPick, randomSide, &currentState, bullets, &spawn, &score);
 			} break;
 
 			default:

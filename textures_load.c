@@ -4,6 +4,7 @@ Visuals textures_load(Visuals space)
 {
 	space.blueplanet = LoadTexture("graphics/blueplanet.png");
 	space.earth = LoadTexture("graphics/earth.png");
+	space.explosion = LoadTexture("graphics/explosion.png");
 	space.purpleplanet = LoadTexture("graphics/purpleplanet.png");
 	space.redplanet = LoadTexture("graphics/redplanet.png");
 	space.rocketwhite = LoadTexture("graphics/rocketwhite.png");

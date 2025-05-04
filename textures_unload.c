@@ -4,6 +4,7 @@ void textures_unload(Visuals space)
 {
 	UnloadTexture(space.blueplanet);
 	UnloadTexture(space.earth);
+	UnloadTexture(space.explosion);
 	UnloadTexture(space.purpleplanet);
 	UnloadTexture(space.redplanet);
 	UnloadTexture(space.rocketwhite);

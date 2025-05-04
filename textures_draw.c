@@ -1,5 +1,4 @@
 #include "config.h"
-#include <raylib.h>
 
 void textures_draw(Visuals space, Texture2D playerTex, Vector2 playerPos, Texture2D enemyTex, Enemy *enemies, SpawnCounter spawn, int *score)
 {
