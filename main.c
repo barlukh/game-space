@@ -22,15 +22,12 @@ int main(void)
 	Texture2D enemyTex = LoadTexture("graphics/ufo.png");
 	Enemy enemies[MAX_ENEMIES];
 
-	for (int i = 0; i < MAX_ENEMIES; i++)
-	{
-		int randomSide[4][2] = {
-			{GetRandomValue(0, SCREEN_WIDTH), -150},
-			{GetRandomValue(0, SCREEN_WIDTH), SCREEN_HEIGHT + 150},
-			{-150, GetRandomValue(0, SCREEN_HEIGHT)},
-			{SCREEN_WIDTH + 150, GetRandomValue(0, SCREEN_HEIGHT)}
-		};
-		int randomPick = GetRandomValue(0, 3);
+	int randomPick;
+	int randomSide[4][2];
+	randomizer(randomSide);
+
+	for (int i = 0; i < MAX_ENEMIES; i++) {
+		randomPick = GetRandomValue(0, 3);
 		enemies[i].enemyPos.x = randomSide[randomPick][0];
 		enemies[i].enemyPos.y = randomSide[randomPick][1];
 		enemies[i].enemyRec = (Rectangle){enemies[i].enemyPos.x, enemies[i].enemyPos.y, enemyTex.width, enemyTex.height};
@@ -58,17 +55,16 @@ int main(void)
 				controls_bullets(&bulletDir);
 
 				// Enemy movement updates
-				for (int i = 0; i < MAX_ENEMIES; i++)
-				{
+				for (int i = 0; i < MAX_ENEMIES; i++) {
 					enemies[i].enemyDir.x = playerPos.x - enemies[i].enemyPos.x;
 					enemies[i].enemyDir.y = playerPos.y - enemies[i].enemyPos.y;
 
 					float length = sqrtf(enemies[i].enemyDir.x * enemies[i].enemyDir.x + enemies[i].enemyDir.y * enemies[i].enemyDir.y);
-					if (length != 0)
-					{
+					if (length != 0) {
 						enemies[i].enemyDir.x /= length;
 						enemies[i].enemyDir.y /= length;
 					}
+					
 					enemies[i].enemyPos.x += enemies[i].enemyDir.x * ENEMY_SPEED;
 					enemies[i].enemyPos.y += enemies[i].enemyDir.y * ENEMY_SPEED;
 
@@ -81,12 +77,9 @@ int main(void)
 
 				// Bullet firing mechanism
 				bulletTimer++;
-				if (bulletTimer >= fireRate)
-				{
-					for (int i = 0; i < MAX_BULLET; i++)
-					{
-						if (!bullets[i].active)
-						{
+				if (bulletTimer >= fireRate) {
+					for (int i = 0; i < MAX_BULLET; i++) {
+						if (!bullets[i].active) {
 							bullets[i].position = (Vector2){playerPos.x + playerTex.width, playerPos.y + playerTex.height / 2.0};
 							bullets[i].direction = bulletDir;
 							bullets[i].active = true;
@@ -97,80 +90,31 @@ int main(void)
 				}
 
 				// Bullet movement
-				for (int i = 0; i < MAX_BULLET; i++)
-				{
-					if (bullets[i].active)
-					{
+				for (int i = 0; i < MAX_BULLET; i++) {
+					if (bullets[i].active) {
 						bullets[i].position.x += bullets[i].direction.x * bulletSpeed;
 						bullets[i].position.y += bullets[i].direction.y * bulletSpeed;
 						if (bullets[i].position.x < 0 || bullets[i].position.x > SCREEN_WIDTH ||
 							bullets[i].position.y < 0 || bullets[i].position.y > SCREEN_HEIGHT)
-						{
-							bullets[i].active = false;
-						}
+								bullets[i].active = false;
 					}
 				}
 
 				// Drawing
 				BeginDrawing();
 
-				ClearBackground(BLACK);
-				textures_draw(space);
+					ClearBackground(BLACK);
+					textures_draw(space, playerTex, playerPos, enemyTex, enemies);
 
-				DrawTexture(playerTex, playerPos.x, playerPos.y, WHITE);
-
-				for (int i = 0; i < MAX_ENEMIES; i++)
-				{
-					DrawTexture(enemyTex, enemies[i].enemyPos.x, enemies[i].enemyPos.y, WHITE);
-				}
-
-				for (int i = 0; i < MAX_BULLET; i++)
-				{
-					if (bullets[i].active)
-					{
-						DrawCircleV(bullets[i].position, 10, YELLOW);
+					for (int i = 0; i < MAX_BULLET; i++) {
+						if (bullets[i].active)
+							DrawCircleV(bullets[i].position, 10, YELLOW);
 					}
-				}
 
 				EndDrawing();
 
-				// Collision detection for all enemies
-				for (int i = 0; i < MAX_ENEMIES; i++)
-				{
-					if (CheckCollisionRecs(enemies[i].enemyRec, playerRec))
-					{
-						playerPos.x = SCREEN_WIDTH / 2.0;
-						playerPos.y = SCREEN_HEIGHT / 2.0;
-						
-						for (int i = 0; i < MAX_ENEMIES; i++)
-						{
-							int randomSide[4][2] = {
-								{GetRandomValue(0, SCREEN_WIDTH), -150},
-								{GetRandomValue(0, SCREEN_WIDTH), SCREEN_HEIGHT + 150},
-								{-150, GetRandomValue(0, SCREEN_HEIGHT)},
-								{SCREEN_WIDTH + 150, GetRandomValue(0, SCREEN_HEIGHT)}
-							};
-							int randomPick = GetRandomValue(0, 3);
-							enemies[i].enemyPos.x = randomSide[randomPick][0];
-							enemies[i].enemyPos.y = randomSide[randomPick][1];
-						}
-						currentState = INTRO;
-					}
-
-					if (CheckCollisionCircleRec(bullets[i].position, 10, enemies[i].enemyRec))
-					{
-						bullets[i].active = false;
-						int randomSide[4][2] = {
-							{GetRandomValue(0, SCREEN_WIDTH), -150},
-							{GetRandomValue(0, SCREEN_WIDTH), SCREEN_HEIGHT + 150},
-							{-150, GetRandomValue(0, SCREEN_HEIGHT)},
-							{SCREEN_WIDTH + 150, GetRandomValue(0, SCREEN_HEIGHT)}
-						};
-						int randomPick = GetRandomValue(0, 3);
-						enemies[i].enemyPos.x = randomSide[randomPick][0];
-						enemies[i].enemyPos.y = randomSide[randomPick][1];
-					}
-				}
+				// Collision detection
+				check_collisions(enemies, &playerPos, playerRec, randomPick, randomSide, &currentState, bullets);
 			} break;
 
 			default:

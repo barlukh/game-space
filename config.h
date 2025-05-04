@@ -74,7 +74,9 @@ typedef struct Visuals {
 void intro(GameState *currentState, Visuals space);
 void controls_bullets(Vector2 *bulletDir);
 void controls_player(Vector2 *playerPos, Texture2D *player);
-void textures_draw(Visuals space);
+void check_collisions(Enemy *enemies, Vector2 *playerPos, Rectangle playerRec, int randomPick, int randomSide[4][2], GameState *currentState, Bullet *bullets);
+void randomizer(int randomSide[4][2]);
+void textures_draw(Visuals space, Texture2D playerTex, Vector2 playerPos, Texture2D enemyTex, Enemy *enemies);
 Visuals textures_load(Visuals space);
 void textures_unload(Visuals space);
 
