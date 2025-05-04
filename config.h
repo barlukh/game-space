@@ -19,9 +19,9 @@
 #define GAME_TITLE "Space Jam"
 #define SCREEN_FPS 60
 #define PLAYER_SPEED 20
-#define ENEMY_SPEED 10.0f
+#define ENEMY_SPEED 2.0f
 #define MAX_ENEMIES 100
-#define MAX_BULLET 100
+#define MAX_BULLETS 50
 
 
 //----------------------------------------------------------------------------------

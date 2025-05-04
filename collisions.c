@@ -6,23 +6,27 @@ void check_collisions(Enemy *enemies, Vector2 *playerPos, Rectangle playerRec, i
 		if (CheckCollisionRecs(enemies[i].enemyRec, playerRec)) {
 			playerPos->x = SCREEN_WIDTH / 2.0;
 			playerPos->y = SCREEN_HEIGHT / 2.0;
-			randomizer(randomSide);
 			
 			for (int i = 0; i < MAX_ENEMIES; i++) {
 				randomPick = GetRandomValue(0, 3);
+				randomizer(randomSide);
 				enemies[i].enemyPos.x = randomSide[randomPick][0];
 				enemies[i].enemyPos.y = randomSide[randomPick][1];
 			}
 			*currentState = INTRO;
 		}
+	}
 
-		if (CheckCollisionCircleRec(bullets[i].position, 10, enemies[i].enemyRec)) {
+	for (int i = 0; i < MAX_BULLETS; i++) {
+		for (int j = 0; j < MAX_ENEMIES; j++) {
+		if (CheckCollisionCircleRec(bullets[i].position, 10, enemies[j].enemyRec)) {
 			bullets[i].active = false;
 			randomizer(randomSide);
 			
 			randomPick = GetRandomValue(0, 3);
-			enemies[i].enemyPos.x = randomSide[randomPick][0];
-			enemies[i].enemyPos.y = randomSide[randomPick][1];
+			enemies[j].enemyPos.x = randomSide[randomPick][0];
+			enemies[j].enemyPos.y = randomSide[randomPick][1];
+			}
 		}
 	}
 }

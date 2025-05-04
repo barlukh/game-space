@@ -30,10 +30,10 @@ int main(void)
 
 	int randomPick;
 	int randomSide[4][2];
-	randomizer(randomSide);
-
+	
 	for (int i = 0; i < MAX_ENEMIES; i++) {
 		randomPick = GetRandomValue(0, 3);
+		randomizer(randomSide);
 		enemies[i].enemyPos.x = randomSide[randomPick][0];
 		enemies[i].enemyPos.y = randomSide[randomPick][1];
 		enemies[i].enemyRec = (Rectangle){enemies[i].enemyPos.x, enemies[i].enemyPos.y, enemyTex.width, enemyTex.height};
@@ -41,7 +41,7 @@ int main(void)
 	}
 
 	// Bullets
-	Bullet bullets[MAX_BULLET] = {0};
+	Bullet bullets[MAX_BULLETS] = {0};
 	float bulletSpeed = 30.0f;
 	int bulletTimer = 0;
 	int fireRate = 5;
@@ -92,7 +92,7 @@ int main(void)
 				// Bullet firing mechanism
 				bulletTimer++;
 				if (bulletTimer >= fireRate) {
-					for (int i = 0; i < MAX_BULLET; i++) {
+					for (int i = 0; i < MAX_BULLETS; i++) {
 						if (!bullets[i].active) {
 							bullets[i].position = (Vector2){playerPos.x + playerTex[0].width, playerPos.y + playerTex[0].height / 2.0};
 							bullets[i].direction = bulletDir;
@@ -104,7 +104,7 @@ int main(void)
 				}
 
 				// Bullet movement
-				for (int i = 0; i < MAX_BULLET; i++) {
+				for (int i = 0; i < MAX_BULLETS; i++) {
 					if (bullets[i].active) {
 						bullets[i].position.x += bullets[i].direction.x * bulletSpeed;
 						bullets[i].position.y += bullets[i].direction.y * bulletSpeed;
@@ -120,7 +120,7 @@ int main(void)
 					ClearBackground(BLACK);
 					textures_draw(space, playerTex[time.frame], playerPos, enemyTex, enemies);
 
-					for (int i = 0; i < MAX_BULLET; i++) {
+					for (int i = 0; i < MAX_BULLETS; i++) {
 						if (bullets[i].active)
 							DrawCircleV(bullets[i].position, 10, YELLOW);
 					}
