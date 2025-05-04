@@ -5,20 +5,12 @@
 </p>
 
 ## About
-2D game written with the help of Pygame library. It is a simple collection game, where a player controls a robot and tries to collect coins.
-If the player collides with a monster, the game ends. This is the final submission for the Advanced Python course in the MOOC 2024 teaching series at University of Helsinki.
-
-## Functionality
-- The player controls a robot and is being chased by a monster. Score increases based on the coins collected.
-- If the monster touches the player, the game is over and the player can restart the game.
-- There is no winning condition, only collecting more coins.
-- Operate the game with arrow keys. Spacebar starts a new game.
-- Images have their own collision rectangles. No Pygame sprites were used.
+2D game written with the help of the Raylib library. Space Jam is a game made for the Hive Helsinki Game Jam that was held in May 2025.
+The task was to create a game within 48 hours with a theme 'World worth saving'. We created a game in C with my classmate [Hieu](https://github.com/hieutrpham).
+Shoot aliens, save the Earth, have fun.
 
 ## Installation
-- Ensure Python is installed on your system.
-- Use pip to install all required packages listed in requirements.txt (pip install -r requirements.txt).
-- Execute the main script to run the program (python main.py).
+You can just run the executable 'game'. The file is compiled with a static Raylib library, so there should be no other missing dependencies.
 
 ## Credits & License
 All original images created by peony. [link](https://opengameart.org/content/space-pixel-art)<br/>
