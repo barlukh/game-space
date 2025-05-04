@@ -10,8 +10,9 @@ int main(void)
 	SetTargetFPS(SCREEN_FPS);
 	SetWindowState(FLAG_FULLSCREEN_MODE);
 
-	// Animation config
-	FrameConfig time = {0, 0.2f, 0.0f};
+	// Animation and time config
+	FrameCounter time = {0, 0.2f, 0.0f};
+	SpawnCounter spawn = {0, 3.0f, 0.0f};
 
 	// Space
 	Visuals space = textures_load(space);
@@ -57,11 +58,20 @@ int main(void)
 
 			case GAMEPLAY:
 			{
-				// Animation timer
+				// Timers
+				
 				time.elapsed += GetFrameTime();
 				if (time.elapsed >= time.threshold) {
 					time.frame = (time.frame + 1) % 2;
 					time.elapsed = 0.0f;
+				}
+				
+				if (spawn.count < MAX_ENEMIES) {
+					spawn.elapsed += GetFrameTime();
+					if (spawn.elapsed >= spawn.threshold) {
+						spawn.count++;
+						spawn.elapsed = 0.0f;
+					}
 				}
 
 				// Input controls
@@ -69,7 +79,7 @@ int main(void)
 				controls_bullets(&bulletDir);
 
 				// Enemy movement updates
-				for (int i = 0; i < MAX_ENEMIES; i++) {
+				for (int i = 0; i < spawn.count; i++) {
 					enemies[i].enemyDir.x = playerPos.x - enemies[i].enemyPos.x;
 					enemies[i].enemyDir.y = playerPos.y - enemies[i].enemyPos.y;
 
@@ -118,7 +128,7 @@ int main(void)
 				BeginDrawing();
 
 					ClearBackground(BLACK);
-					textures_draw(space, playerTex[time.frame], playerPos, enemyTex, enemies);
+					textures_draw(space, playerTex[time.frame], playerPos, enemyTex, enemies, spawn);
 
 					for (int i = 0; i < MAX_BULLETS; i++) {
 						if (bullets[i].active)
@@ -128,7 +138,7 @@ int main(void)
 				EndDrawing();
 
 				// Collision detection
-				check_collisions(enemies, &playerPos, playerRec, randomPick, randomSide, &currentState, bullets);
+				check_collisions(enemies, &playerPos, playerRec, randomPick, randomSide, &currentState, bullets, &spawn);
 			} break;
 
 			default:

@@ -19,7 +19,7 @@
 #define GAME_TITLE "Space Jam"
 #define SCREEN_FPS 60
 #define PLAYER_SPEED 20
-#define ENEMY_SPEED 2.0f
+#define ENEMY_SPEED 6.0f
 #define MAX_ENEMIES 100
 #define MAX_BULLETS 50
 
@@ -45,11 +45,17 @@ typedef struct Enemy {
 	Vector2 enemyDir;
 } Enemy;
 
-typedef struct FrameConfig {
+typedef struct FrameCounter {
 	int frame;			// Current frame displayed
 	float threshold;	// Threshold value for the next frame
 	float elapsed;		// Time elapsed
-} FrameConfig;
+} FrameCounter;
+
+typedef struct SpawnCounter {
+	int count;			// Current number of enemies spawned
+	float threshold;	// Threshold value for the next enemy
+	float elapsed;		// Time elapsed
+} SpawnCounter;
 
 typedef struct Visuals {
 	Texture2D blueplanet;
@@ -80,9 +86,9 @@ typedef struct Visuals {
 void intro(GameState *currentState, Visuals space);
 void controls_bullets(Vector2 *bulletDir);
 void controls_player(Vector2 *playerPos, Texture2D player);
-void check_collisions(Enemy *enemies, Vector2 *playerPos, Rectangle playerRec, int randomPick, int randomSide[4][2], GameState *currentState, Bullet *bullets);
+void check_collisions(Enemy *enemies, Vector2 *playerPos, Rectangle playerRec, int randomPick, int randomSide[4][2], GameState *currentState, Bullet *bullets, SpawnCounter *spawn);
 void randomizer(int randomSide[4][2]);
-void textures_draw(Visuals space, Texture2D playerTex, Vector2 playerPos, Texture2D enemyTex, Enemy *enemies);
+void textures_draw(Visuals space, Texture2D playerTex, Vector2 playerPos, Texture2D enemyTex, Enemy *enemies, SpawnCounter spawn);
 Visuals textures_load(Visuals space);
 void textures_unload(Visuals space);
 
