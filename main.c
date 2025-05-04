@@ -13,6 +13,7 @@ int main(void)
 	// Animation and time config
 	FrameCounter time = {0, 0.2f, 0.0f};
 	SpawnCounter spawn = {0, 3.0f, 0.0f};
+	int score = 0;
 
 	// Space
 	Visuals space = textures_load(space);
@@ -128,7 +129,7 @@ int main(void)
 				BeginDrawing();
 
 					ClearBackground(BLACK);
-					textures_draw(space, playerTex[time.frame], playerPos, enemyTex, enemies, spawn);
+					textures_draw(space, playerTex[time.frame], playerPos, enemyTex, enemies, spawn, &score);
 
 					for (int i = 0; i < MAX_BULLETS; i++) {
 						if (bullets[i].active)
@@ -138,7 +139,7 @@ int main(void)
 				EndDrawing();
 
 				// Collision detection
-				check_collisions(enemies, &playerPos, playerRec, randomPick, randomSide, &currentState, bullets, &spawn);
+				check_collisions(enemies, &playerPos, playerRec, randomPick, randomSide, &currentState, bullets, &spawn, &score);
 			} break;
 
 			default:
