@@ -1,6 +1,7 @@
 #include "config.h"
+#include <stdio.h>
 
-void check_collisions(Enemy *enemies, Vector2 *playerPos, Rectangle playerRec, int randomPick, int randomSide[4][2], GameState *currentState, Bullet *bullets)
+void check_collisions(Enemy *enemies, Vector2 *playerPos, Rectangle playerRec, int randomPick, int randomSide[4][2], GameState *currentState, Bullet *bullets, int *score)
 {
 	for (int i = 0; i < MAX_ENEMIES; i++) {
 		if (CheckCollisionRecs(enemies[i].enemyRec, playerRec)) {
@@ -14,6 +15,7 @@ void check_collisions(Enemy *enemies, Vector2 *playerPos, Rectangle playerRec, i
 				enemies[i].enemyPos.y = randomSide[randomPick][1];
 			}
 			*currentState = INTRO;
+			*score = 0;
 		}
 	}
 
@@ -22,7 +24,7 @@ void check_collisions(Enemy *enemies, Vector2 *playerPos, Rectangle playerRec, i
 		if (CheckCollisionCircleRec(bullets[i].position, 10, enemies[j].enemyRec)) {
 			bullets[i].active = false;
 			randomizer(randomSide);
-			
+			(*score)++;
 			randomPick = GetRandomValue(0, 3);
 			enemies[j].enemyPos.x = randomSide[randomPick][0];
 			enemies[j].enemyPos.y = randomSide[randomPick][1];

@@ -10,6 +10,8 @@ int main(void)
 	SetTargetFPS(SCREEN_FPS);
 	SetWindowState(FLAG_FULLSCREEN_MODE);
 
+	// Scoring
+	int score = 0;
 	// Animation config
 	FrameConfig time = {0, 0.2f, 0.0f};
 
@@ -118,7 +120,7 @@ int main(void)
 				BeginDrawing();
 
 					ClearBackground(BLACK);
-					textures_draw(space, playerTex[time.frame], playerPos, enemyTex, enemies);
+					textures_draw(space, playerTex[time.frame], playerPos, enemyTex, enemies, &score);
 
 					for (int i = 0; i < MAX_BULLETS; i++) {
 						if (bullets[i].active)
@@ -128,7 +130,7 @@ int main(void)
 				EndDrawing();
 
 				// Collision detection
-				check_collisions(enemies, &playerPos, playerRec, randomPick, randomSide, &currentState, bullets);
+				check_collisions(enemies, &playerPos, playerRec, randomPick, randomSide, &currentState, bullets, &score);
 			} break;
 
 			default:

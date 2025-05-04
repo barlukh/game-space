@@ -1,6 +1,7 @@
 #include "config.h"
+#include <raylib.h>
 
-void textures_draw(Visuals space, Texture2D playerTex, Vector2 playerPos, Texture2D enemyTex, Enemy *enemies)
+void textures_draw(Visuals space, Texture2D playerTex, Vector2 playerPos, Texture2D enemyTex, Enemy *enemies, int *score)
 {
 	DrawTexture(space.rocketwhite, 100, 1900, WHITE);
 	DrawTexture(space.whiteshootingstar, 1000, 300, WHITE);
@@ -12,6 +13,7 @@ void textures_draw(Visuals space, Texture2D playerTex, Vector2 playerPos, Textur
 	DrawTexture(space.yellowstars, 3650, 100, WHITE);
 
 	DrawTexture(playerTex, playerPos.x, playerPos.y, WHITE);
+	DrawText(TextFormat("Score: %d", *score), 20, SCREEN_HEIGHT-100, 100, WHITE);
 
 	for (int i = 0; i < MAX_ENEMIES; i++)
 		DrawTexture(enemyTex, enemies[i].enemyPos.x, enemies[i].enemyPos.y, WHITE);
