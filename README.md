@@ -15,4 +15,4 @@ You can just run the executable 'game'. The file is compiled with a static Rayli
 ## Credits & License
 All original images created by peony. [link](https://opengameart.org/content/space-pixel-art)<br/>
 Small edits made by the authors of this repository.<br/>
-[License: CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)
+License: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)
