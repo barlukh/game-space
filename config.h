@@ -20,7 +20,7 @@
 #define SCREEN_FPS 60
 #define PLAYER_SPEED 20
 #define ENEMY_SPEED 10.0f
-#define MAX_ENEMIES 10
+#define MAX_ENEMIES 100
 #define MAX_BULLET 100
 
 
@@ -44,6 +44,12 @@ typedef struct Enemy {
 	Rectangle enemyRec;
 	Vector2 enemyDir;
 } Enemy;
+
+typedef struct FrameConfig {
+	int frame;			// Current frame displayed
+	float threshold;	// Threshold value for the next frame
+	float elapsed;		// Time elapsed
+} FrameConfig;
 
 typedef struct Visuals {
 	Texture2D blueplanet;
@@ -73,7 +79,7 @@ typedef struct Visuals {
 
 void intro(GameState *currentState, Visuals space);
 void controls_bullets(Vector2 *bulletDir);
-void controls_player(Vector2 *playerPos, Texture2D *player);
+void controls_player(Vector2 *playerPos, Texture2D player);
 void check_collisions(Enemy *enemies, Vector2 *playerPos, Rectangle playerRec, int randomPick, int randomSide[4][2], GameState *currentState, Bullet *bullets);
 void randomizer(int randomSide[4][2]);
 void textures_draw(Visuals space, Texture2D playerTex, Vector2 playerPos, Texture2D enemyTex, Enemy *enemies);

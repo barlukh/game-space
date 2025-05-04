@@ -1,6 +1,6 @@
 #include "config.h"
 
-void controls_player(Vector2 *playerPos, Texture2D *player)
+void controls_player(Vector2 *playerPos, Texture2D player)
 {
 	if (IsKeyDown(KEY_A))
 		playerPos->x -= PLAYER_SPEED;
@@ -13,10 +13,10 @@ void controls_player(Vector2 *playerPos, Texture2D *player)
 
 	if (playerPos->x <= 0)
 		playerPos->x = 0;
-	if (playerPos->x > SCREEN_WIDTH - player->width)
-		playerPos->x = SCREEN_WIDTH - player->width;
+	if (playerPos->x > SCREEN_WIDTH - player.width)
+		playerPos->x = SCREEN_WIDTH - player.width;
 	if (playerPos->y <= 0)
 		playerPos->y = 0;
-	if (playerPos->y > SCREEN_HEIGHT - player->height)
-		playerPos->y = SCREEN_HEIGHT - player->height;
+	if (playerPos->y > SCREEN_HEIGHT - player.height)
+		playerPos->y = SCREEN_HEIGHT - player.height;
 }

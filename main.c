@@ -10,13 +10,19 @@ int main(void)
 	SetTargetFPS(SCREEN_FPS);
 	SetWindowState(FLAG_FULLSCREEN_MODE);
 
+	// Animation config
+	FrameConfig time = {0, 0.2f, 0.0f};
+
 	// Space
 	Visuals space = textures_load(space);
 
 	// Player
-	Texture2D playerTex = LoadTexture("graphics/astronaut1.png");
+	Texture2D playerTex[2] = {
+		LoadTexture("graphics/astronaut1.png"),
+		LoadTexture("graphics/astronaut2.png")
+	};
 	Vector2 playerPos = {SCREEN_WIDTH / 2.0, SCREEN_HEIGHT / 2.0};
-	Rectangle playerRec = {playerPos.x, playerPos.y, playerTex.width, playerTex.height};
+	Rectangle playerRec = {playerPos.x, playerPos.y, playerTex[0].width, playerTex[0].height};
 
 	// Enemies
 	Texture2D enemyTex = LoadTexture("graphics/ufo.png");
@@ -51,7 +57,15 @@ int main(void)
 
 			case GAMEPLAY:
 			{
-				controls_player(&playerPos, &playerTex);
+				// Animation timer
+				time.elapsed += GetFrameTime();
+				if (time.elapsed >= time.threshold) {
+					time.frame = (time.frame + 1) % 2;
+					time.elapsed = 0.0f;
+				}
+
+				// Input controls
+				controls_player(&playerPos, playerTex[0]);
 				controls_bullets(&bulletDir);
 
 				// Enemy movement updates
@@ -80,7 +94,7 @@ int main(void)
 				if (bulletTimer >= fireRate) {
 					for (int i = 0; i < MAX_BULLET; i++) {
 						if (!bullets[i].active) {
-							bullets[i].position = (Vector2){playerPos.x + playerTex.width, playerPos.y + playerTex.height / 2.0};
+							bullets[i].position = (Vector2){playerPos.x + playerTex[0].width, playerPos.y + playerTex[0].height / 2.0};
 							bullets[i].direction = bulletDir;
 							bullets[i].active = true;
 							bulletTimer = 0;
@@ -104,7 +118,7 @@ int main(void)
 				BeginDrawing();
 
 					ClearBackground(BLACK);
-					textures_draw(space, playerTex, playerPos, enemyTex, enemies);
+					textures_draw(space, playerTex[time.frame], playerPos, enemyTex, enemies);
 
 					for (int i = 0; i < MAX_BULLET; i++) {
 						if (bullets[i].active)
@@ -124,7 +138,9 @@ int main(void)
 
 	// Clean up resources after exiting the game loop
 	textures_unload(space);
-	UnloadTexture(playerTex);
+	for (int i = 0; i < 2; i++) {
+		UnloadTexture(playerTex[i]);
+	}
 	UnloadTexture(enemyTex);
 	CloseWindow();
 
