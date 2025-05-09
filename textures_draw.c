@@ -1,15 +1,15 @@
 #include "config.h"
 
-void textures_draw(Visuals space, Texture2D playerTex, Vector2 playerPos, Texture2D enemyTex, Enemy *enemies, SpawnCounter spawn, int *score)
+void textures_draw(Graphics objects, Texture2D playerTex, Vector2 playerPos, Texture2D enemyTex, Enemy *enemies, SpawnCounter spawn, int *score)
 {
-	DrawTexture(space.rocketwhite, 100, 1900, WHITE);
-	DrawTexture(space.whiteshootingstar, 1000, 300, WHITE);
-	DrawTexture(space.whitestar, 3500, 700, WHITE);
-	DrawTexture(space.whitestars1, 3000, 400, WHITE);
-	DrawTexture(space.whitestars2, 200, 1100, WHITE);
-	DrawTexture(space.yellowhalfmoon, 100, 100, WHITE);
-	DrawTexture(space.yellowshootingstar, 300, 150, WHITE);
-	DrawTexture(space.yellowstars, 3650, 100, WHITE);
+	DrawTextureEx(objects.rocketwhite.texture, objects.rocketwhite.position, 0.0f, fmin(SCALE_X, SCALE_Y), WHITE);
+	DrawTextureEx(objects.whiteshootingstar.texture, objects.whiteshootingstar.position, 0.0f, fmin(SCALE_X, SCALE_Y), WHITE);
+	DrawTextureEx(objects.whitestar.texture, objects.whitestar.position, 0.0f, fmin(SCALE_X, SCALE_Y), WHITE);
+	DrawTextureEx(objects.whitestars1.texture, objects.whitestars1.position, 0.0f, fmin(SCALE_X, SCALE_Y), WHITE);
+	DrawTextureEx(objects.whitestars2.texture, objects.whitestars2.position, 0.0f, fmin(SCALE_X, SCALE_Y), WHITE);
+	DrawTextureEx(objects.yellowhalfmoon.texture, objects.yellowhalfmoon.position, 0.0f, fmin(SCALE_X, SCALE_Y), WHITE);
+	DrawTextureEx(objects.yellowshootingstar.texture, objects.yellowshootingstar.position, 0.0f, fmin(SCALE_X, SCALE_Y), WHITE);
+	DrawTextureEx(objects.yellowstars.texture, objects.yellowstars.position, 0.0f, fmin(SCALE_X, SCALE_Y), WHITE);
 
 	DrawTexture(playerTex, playerPos.x, playerPos.y, WHITE);
 	DrawText(TextFormat("Score: %d", *score), 20, SCREEN_HEIGHT-100, 100, WHITE);

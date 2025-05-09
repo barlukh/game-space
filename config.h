@@ -14,8 +14,10 @@
 // Macro Definitions
 //----------------------------------------------------------------------------------
 
-#define SCREEN_WIDTH (GetScreenWidth())
-#define SCREEN_HEIGHT (GetScreenHeight())
+#define SCREEN_WIDTH 2560 // GetScreenWidth()
+#define SCREEN_HEIGHT 1440 //GetScreenHeight()
+#define SCALE_X (float)GetScreenWidth() / 3840.0f
+#define SCALE_Y (float)GetScreenHeight() / 2160.0f
 #define GAME_TITLE "Space Jam"
 #define SCREEN_FPS 60
 #define PLAYER_SPEED 20
@@ -39,12 +41,6 @@ typedef enum GameState {
 	GAMEPLAY
 } GameState;
 
-typedef struct Enemy {
-	Vector2 enemyPos;
-	Rectangle enemyRec;
-	Vector2 enemyDir;
-} Enemy;
-
 typedef struct FrameCounter {
 	int frame;			// Current frame displayed
 	float threshold;	// Threshold value for the next frame
@@ -57,41 +53,50 @@ typedef struct SpawnCounter {
 	float elapsed;		// Time elapsed
 } SpawnCounter;
 
-typedef struct Visuals {
-	Texture2D blueplanet;
-	Texture2D earth;
-	Texture2D enemy;
-	Texture2D explosion;
-	Texture2D player;
-	Texture2D purpleplanet;
-	Texture2D redplanet;
-	Texture2D rocketwhite;
-	Texture2D satellite;
-	Texture2D saturn;
-	Texture2D sun;
-	Texture2D text;
-	Texture2D whiteshootingstar;
-	Texture2D whitestar;
-	Texture2D whitestars1;
-	Texture2D whitestars2;
-	Texture2D yellowhalfmoon;
-	Texture2D yellowshootingstar;
-	Texture2D yellowstars;
-} Visuals;
+typedef struct Enemy {
+	Texture2D enemyTex;
+	Vector2 enemyPos;
+	Rectangle enemyRec;
+	Vector2 enemyDir;
+} Enemy;
+
+typedef struct StaticObject {
+	Texture2D texture;
+	Vector2 position;
+} StaticObject;
+
+typedef struct Graphics {
+	StaticObject blueplanet;
+	StaticObject earth;
+	StaticObject purpleplanet;
+	StaticObject redplanet;
+	StaticObject rocketwhite;
+	StaticObject satellite;
+	StaticObject saturn;
+	StaticObject sun;
+	StaticObject title;
+	StaticObject whiteshootingstar;
+	StaticObject whitestar;
+	StaticObject whitestars1;
+	StaticObject whitestars2;
+	StaticObject yellowhalfmoon;
+	StaticObject yellowshootingstar;
+	StaticObject yellowstars;
+} Graphics;
 
 
 //----------------------------------------------------------------------------------
 // Function Prototypes
 //----------------------------------------------------------------------------------
 
-void intro(GameState *currentState, Visuals space, int *score);
+void intro(GameState *currentState, Graphics space, int *score);
 void controls_bullets(Vector2 *bulletDir);
 void controls_player(Vector2 *playerPos, Texture2D player);
-void check_collisions(Enemy *enemies, Vector2 *playerPos, Rectangle playerRec, int randomPick, int randomSide[4][2], GameState *currentState, Bullet *bullets, SpawnCounter *spawn, int *score, Visuals space);
+void check_collisions(Enemy *enemies, Vector2 *playerPos, Rectangle playerRec, int randomPick, int randomSide[4][2], GameState *currentState, Bullet *bullets, SpawnCounter *spawn, int *score, Graphics space);
 void randomizer(int randomSide[4][2]);
-void textures_draw(Visuals space, Texture2D playerTex, Vector2 playerPos, Texture2D enemyTex, Enemy *enemies, SpawnCounter spawn, int *score);
-Visuals textures_load(Visuals space);
-void textures_unload(Visuals space);
+void textures_draw(Graphics space, Texture2D playerTex, Vector2 playerPos, Texture2D enemyTex, Enemy *enemies, SpawnCounter spawn, int *score);
+Graphics textures_load(Graphics space);
+void textures_unload(Graphics space);
 
 
 #endif

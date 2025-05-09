@@ -8,7 +8,8 @@ int main(void)
 	GameState currentState = INTRO;
 	InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, GAME_TITLE);
 	SetTargetFPS(SCREEN_FPS);
-	SetWindowState(FLAG_WINDOW_RESIZABLE);
+	SetWindowState(FLAG_FULLSCREEN_MODE);
+	DisableCursor();
 
 	// Animation and time config
 	FrameCounter time = {0, 0.2f, 0.0f};
@@ -16,7 +17,7 @@ int main(void)
 	int score = 0;
 
 	// Space
-	Visuals space = textures_load(space);
+	Graphics objects = textures_load(objects);
 
 	// Player
 	Texture2D playerTex[2] = {
@@ -54,7 +55,7 @@ int main(void)
 		switch (currentState)
 		{
 			case INTRO:
-				intro(&currentState, space, &score);
+				intro(&currentState, objects, &score);
 				break;
 
 			case GAMEPLAY:
@@ -126,13 +127,13 @@ int main(void)
 				}
 				
 				// Collision detection
-				check_collisions(enemies, &playerPos, playerRec, randomPick, randomSide, &currentState, bullets, &spawn, &score, space);
+				check_collisions(enemies, &playerPos, playerRec, randomPick, randomSide, &currentState, bullets, &spawn, &score, objects);
 				
 				// Drawing
 				BeginDrawing();
 				
 					ClearBackground(BLACK);
-					textures_draw(space, playerTex[time.frame], playerPos, enemyTex, enemies, spawn, &score);
+					textures_draw(objects, playerTex[time.frame], playerPos, enemyTex, enemies, spawn, &score);
 
 
 					for (int i = 0; i < MAX_BULLETS; i++) {
@@ -150,7 +151,7 @@ int main(void)
 	}
 
 	// Clean up resources after exiting the game loop
-	textures_unload(space);
+	textures_unload(objects);
 	for (int i = 0; i < 2; i++) {
 		UnloadTexture(playerTex[i]);
 	}

@@ -1,22 +1,21 @@
 #include "config.h"
 
-void textures_unload(Visuals space)
+void textures_unload(Graphics objects)
 {
-	UnloadTexture(space.blueplanet);
-	UnloadTexture(space.earth);
-	UnloadTexture(space.explosion);
-	UnloadTexture(space.purpleplanet);
-	UnloadTexture(space.redplanet);
-	UnloadTexture(space.rocketwhite);
-	UnloadTexture(space.satellite);
-	UnloadTexture(space.saturn);
-	UnloadTexture(space.sun);
-	UnloadTexture(space.text);
-	UnloadTexture(space.whiteshootingstar);
-	UnloadTexture(space.whitestar);
-	UnloadTexture(space.whitestars1);
-	UnloadTexture(space.whitestars2);
-	UnloadTexture(space.yellowhalfmoon);
-	UnloadTexture(space.yellowshootingstar);
-	UnloadTexture(space.yellowstars);
+	UnloadTexture(objects.blueplanet.texture);
+	UnloadTexture(objects.earth.texture);
+	UnloadTexture(objects.purpleplanet.texture);
+	UnloadTexture(objects.redplanet.texture);
+	UnloadTexture(objects.rocketwhite.texture);
+	UnloadTexture(objects.satellite.texture);
+	UnloadTexture(objects.saturn.texture);
+	UnloadTexture(objects.sun.texture);
+	UnloadTexture(objects.title.texture);
+	UnloadTexture(objects.whiteshootingstar.texture);
+	UnloadTexture(objects.whitestar.texture);
+	UnloadTexture(objects.whitestars1.texture);
+	UnloadTexture(objects.whitestars2.texture);
+	UnloadTexture(objects.yellowhalfmoon.texture);
+	UnloadTexture(objects.yellowshootingstar.texture);
+	UnloadTexture(objects.yellowstars.texture);
 }

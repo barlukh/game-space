@@ -1,26 +1,26 @@
 #include "config.h"
 
-void intro(GameState *currentState, Visuals space, int *score)
+void intro(GameState *currentState, Graphics objects, int *score)
 {
 	BeginDrawing();
 
 		ClearBackground(BLACK);
-		DrawTexture(space.blueplanet, 1500, 200, WHITE);
-		DrawTexture(space.earth, 1792, 952, WHITE);
-		DrawTexture(space.purpleplanet, 600, 1300, WHITE);
-		DrawTexture(space.redplanet, 400, 500, WHITE);
-		DrawTexture(space.rocketwhite, 100, 1900, WHITE);
-		DrawTexture(space.satellite, 2050, 850, WHITE);
-		DrawTexture(space.saturn, 800, 100, WHITE);
-		DrawTexture(space.sun, 1000, 500, WHITE);
-		DrawTexture(space.text, 1120, 1350, WHITE);
-		DrawTexture(space.whiteshootingstar, 1000, 300, WHITE);
-		DrawTexture(space.whitestar, 3500, 700, WHITE);
-		DrawTexture(space.whitestars1, 3000, 400, WHITE);
-		DrawTexture(space.whitestars2, 200, 1100, WHITE);
-		DrawTexture(space.yellowhalfmoon, 100, 100, WHITE);
-		DrawTexture(space.yellowshootingstar, 300, 150, WHITE);
-		DrawTexture(space.yellowstars, 3650, 100, WHITE);
+		DrawTextureEx(objects.blueplanet.texture, objects.blueplanet.position, 0.0f, fmin(SCALE_X, SCALE_Y), WHITE);
+		DrawTextureEx(objects.earth.texture, objects.earth.position, 0.0f, fmin(SCALE_X, SCALE_Y), WHITE);
+		DrawTextureEx(objects.purpleplanet.texture, objects.purpleplanet.position, 0.0f, fmin(SCALE_X, SCALE_Y), WHITE);
+		DrawTextureEx(objects.redplanet.texture, objects.redplanet.position, 0.0f, fmin(SCALE_X, SCALE_Y), WHITE);
+		DrawTextureEx(objects.rocketwhite.texture, objects.rocketwhite.position, 0.0f, fmin(SCALE_X, SCALE_Y), WHITE);
+		DrawTextureEx(objects.satellite.texture, objects.satellite.position, 0.0f, fmin(SCALE_X, SCALE_Y), WHITE);
+		DrawTextureEx(objects.saturn.texture, objects.saturn.position, 0.0f, fmin(SCALE_X, SCALE_Y), WHITE);
+		DrawTextureEx(objects.sun.texture, objects.sun.position, 0.0f, fmin(SCALE_X, SCALE_Y), WHITE);
+		DrawTextureEx(objects.title.texture, objects.title.position, 0.0f, fmin(SCALE_X, SCALE_Y), WHITE);
+		DrawTextureEx(objects.whiteshootingstar.texture, objects.whiteshootingstar.position, 0.0f, fmin(SCALE_X, SCALE_Y), WHITE);
+		DrawTextureEx(objects.whitestar.texture, objects.whitestar.position, 0.0f, fmin(SCALE_X, SCALE_Y), WHITE);
+		DrawTextureEx(objects.whitestars1.texture, objects.whitestars1.position, 0.0f, fmin(SCALE_X, SCALE_Y), WHITE);
+		DrawTextureEx(objects.whitestars2.texture, objects.whitestars2.position, 0.0f, fmin(SCALE_X, SCALE_Y), WHITE);
+		DrawTextureEx(objects.yellowhalfmoon.texture, objects.yellowhalfmoon.position, 0.0f, fmin(SCALE_X, SCALE_Y), WHITE);
+		DrawTextureEx(objects.yellowshootingstar.texture, objects.yellowshootingstar.position, 0.0f, fmin(SCALE_X, SCALE_Y), WHITE);
+		DrawTextureEx(objects.yellowstars.texture, objects.yellowstars.position, 0.0f, fmin(SCALE_X, SCALE_Y), WHITE);
 		
 		
 		int text1Width = MeasureText(TextFormat("Score: %d", *score), 100);
