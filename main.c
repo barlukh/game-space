@@ -8,7 +8,7 @@ int main(void)
 	GameState currentState = INTRO;
 	InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, GAME_TITLE);
 	SetTargetFPS(SCREEN_FPS);
-	SetWindowState(FLAG_FULLSCREEN_MODE);
+	SetWindowState(FLAG_WINDOW_RESIZABLE);
 
 	// Animation and time config
 	FrameCounter time = {0, 0.2f, 0.0f};

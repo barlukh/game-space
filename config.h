@@ -14,8 +14,8 @@
 // Macro Definitions
 //----------------------------------------------------------------------------------
 
-#define SCREEN_WIDTH 3840
-#define SCREEN_HEIGHT 2160
+#define SCREEN_WIDTH (GetScreenWidth())
+#define SCREEN_HEIGHT (GetScreenHeight())
 #define GAME_TITLE "Space Jam"
 #define SCREEN_FPS 60
 #define PLAYER_SPEED 20
