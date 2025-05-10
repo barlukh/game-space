@@ -1,9 +1,9 @@
 #include "config.h"
 
-void check_collisions(EnemyObject *enemies, Vector2 *playerPos, Rectangle playerRec, int randomSidePick, int randomSpawnPos[4][2], GameState *currentState, BulletObject *bullets, SpawnCounter *spawn, int *score, Graphics space)
+void check_collisions(GameState *currentState, Graphics *objects)
 {
-	for (int i = 0; i < spawn->count; i++) {
-		if (CheckCollisionRecs(enemies[i].enemyRec, playerRec)) {
+	for (int i = 0; i < timer.spawn; i++) {
+		if (CheckCollisionRecs(objects.enemiey[i].rec, playerRec)) {
 			playerPos->x = SCREEN_WIDTH / 2.0;
 			playerPos->y = SCREEN_HEIGHT / 2.0;
 			

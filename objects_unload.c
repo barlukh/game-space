@@ -2,7 +2,7 @@
 
 void objects_unload(Graphics *objects)
 {
-	// Enemy
+	// Enemies
 
 	UnloadTexture(objects->enemy[0].tex);
 	
@@ -13,7 +13,7 @@ void objects_unload(Graphics *objects)
 	UnoadTexture(objects->player.tex[1]);
 	
 
-	// Static
+	// Static objects
 
 	UnloadTexture(objects->blueplanet.tex);
 	UnloadTexture(objects->earth.tex);

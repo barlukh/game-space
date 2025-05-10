@@ -27,38 +27,23 @@ int main(void)
 	objects_load(&objects);
 
 
-	// Bullets
-
-	BulletObject bullets[BULLET_MAX] = {0};
-	int bulletTimer = 0;
-	int fireRate = 5;
-	Vector2 bulletDir = {1.0f, 0.0f};
-
-
 	while (!WindowShouldClose())
 	{
 		switch (currentState)
 		{
 			case INTRO:
-				intro(&currentState, objects, &score);
+				intro(&currentState, &objects);
 				break;
 
 			case GAMEPLAY:
 			{
-				// Input controls
-
 				controls_player(&objects);
-				controls_bullets(&bulletDir);
 
-				// Enemy movement updates
-
-
-				objects_update(*objects);
+				objects_update(&objects);
 				
-				// Collision detection
 				check_collisions(enemies, &playerPos, playerRec, randomSidePick, randomSpawnPos, &currentState, bullets, &spawn, &score, objects);
 				
-				// Drawing
+
 				BeginDrawing();
 				
 					ClearBackground(BLACK);

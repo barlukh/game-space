@@ -19,62 +19,75 @@ void objects_update(Graphics *objects)
 	}
 	
 	
+	// Bullets
 	
-	for (int i = 0; i < spawn.count; i++) {
-		enemies[i].enemyDir.x = objects.player.pos.x - enemies[i].enemyPos.x;
-		enemies[i].enemyDir.y = objects.player.pos.y - enemies[i].enemyPos.y;
-
-		float length = sqrtf(enemies[i].enemyDir.x * enemies[i].enemyDir.x + enemies[i].enemyDir.y * enemies[i].enemyDir.y);
-		if (length != 0) {
-			enemies[i].enemyDir.x /= length;
-			enemies[i].enemyDir.y /= length;
-		}
-		
-		enemies[i].enemyPos.x += enemies[i].enemyDir.x * ENEMY_SPEED;
-		enemies[i].enemyPos.y += enemies[i].enemyDir.y * ENEMY_SPEED;
-
-		enemies[i].enemyRec.x = enemies[i].enemyPos.x;
-		enemies[i].enemyRec.y = enemies[i].enemyPos.y;
-	}
-	objects.player.rec.x = objects.player.pos.x;
-	objects.player.rec.y = objects.player.pos.y;
-
-
-
 	static double lastShotTime = 0;
 	const double fireRate = 0.25;
-	bulletDir = (Vector2){0, 0}; // Reset direction each frame
+	float deltaTime = GetFrameTime();
 
-	// Check for movement input (directional shooting)
-	if (IsKeyDown(KEY_W)) bulletDir.y = -1; // Up
-	if (IsKeyDown(KEY_S)) bulletDir.y = 1;  // Down
-	if (IsKeyDown(KEY_A)) bulletDir.x = -1; // Left
-	if (IsKeyDown(KEY_D)) bulletDir.x = 1;  // Right
+	Vector2 bulletDir = { 0, 0 };
+	if (IsKeyDown(KEY_W)) bulletDir.y = -1;
+	if (IsKeyDown(KEY_S)) bulletDir.y = 1;
+	if (IsKeyDown(KEY_A)) bulletDir.x = -1;
+	if (IsKeyDown(KEY_D)) bulletDir.x = 1;
 
-	// Normalize diagonal movement
 	if (bulletDir.x != 0 && bulletDir.y != 0) {
 		bulletDir.x *= 0.707f;
 		bulletDir.y *= 0.707f;
 	}
 
-	// **Fire bullets only if a movement key is pressed**
 	if ((bulletDir.x != 0 || bulletDir.y != 0) && GetTime() - lastShotTime >= fireRate) {
 		for (int i = 0; i < BULLET_MAX; i++) {
-			if (!bullets[i].active) {
-				bullets[i].pos = (Vector2){playerPos.x + 20, playerPos.y + 10}; // Offset from player
-				bullets[i].direction = bulletDir;  // Assign movement direction
-				bullets[i].active = true;
-				lastShotTime = GetTime();  // Reset cooldown timer
+			if (!objects->bullet[i].active) {
+				objects->bullet[i].pos = (Vector2){objects->player.pos.x + 20, objects->player.pos.y + 10};
+				objects->bullet[i].dir = bulletDir;
+				objects->bullet[i].active = true;
+				lastShotTime = GetTime();
 				break;
 			}
 		}
 	}
 
-	// Move active bullets
 	for (int i = 0; i < BULLET_MAX; i++) {
-		if (bullets[i].active) {
-			bullets[i].pos.x += bullets[i].direction.x * BULLET_SPEED * GetFrameTime();
-			bullets[i].pos.y += bullets[i].direction.y * BULLET_SPEED * GetFrameTime();
+		if (objects->bullet[i].active) {
+			objects->bullet[i].pos.x += objects->bullet[i].dir.x * BULLET_SPEED * deltaTime;
+			objects->bullet[i].pos.y += objects->bullet[i].dir.y * BULLET_SPEED * deltaTime;
+
+			if (objects->bullet[i].pos.x < 0 || objects->bullet[i].pos.x > SCREEN_WIDTH ||
+				objects->bullet[i].pos.y < 0 || objects->bullet[i].pos.y > SCREEN_HEIGHT) {
+				objects->bullet[i].active = false;
+			}
 		}
 	}
+	
+
+	// Enemies
+	
+	float deltaTime = GetFrameTime();
+
+	for (int i = 0; i < timer.spawn; i++) {
+		float dx = objects->player.pos.x - objects->enemy[i].pos.x;
+		float dy = objects->player.pos.y - objects->enemy[i].pos.y;
+	
+		dx *= SCALE_X;
+		dy *= SCALE_Y;
+	
+		float length = sqrtf(dx * dx + dy * dy);
+		if (length != 0) {
+			dx /= length;
+			dy /= length;
+		}
+	
+		objects->enemy[i].pos.x += dx * ENEMY_SPEED * SCALE_X * deltaTime;
+		objects->enemy[i].pos.y += dy * ENEMY_SPEED * SCALE_Y * deltaTime;
+	
+		objects->enemy[i].rec.x = objects->enemy[i].pos.x;
+		objects->enemy[i].rec.y = objects->enemy[i].pos.y;
+	}
+
+
+	// Player
+
+	objects->player.rec.x = objects->player.pos.x;
+	objects->player.rec.y = objects->player.pos.y;
 }

@@ -112,10 +112,20 @@ typedef struct Graphics {
 // Function Prototypes
 //----------------------------------------------------------------------------------
 
-void intro(GameState *currentState, Graphics objects, int *score);
-void controls_bullets(Vector2 *bulletDir);
+/** Displays intro screen
+ * @param currentState Current state of the game
+ * @param objects Pointer to struct of all game objects
+ * @return None
+ */
+void intro(GameState *currentState, Graphics *objects);
+
+/** Controls player input and updates player position
+ * @param objects Pointer to struct of all game objects
+ * @return None
+ */
 void controls_player(Graphics *objects);
-void check_collisions(EnemyObject *enemies, Vector2 *playerPos, Rectangle playerRec, int randomSidePick, int randomSpawnPos[4][2], GameState *currentState, BulletObject *bullets, SpawnCounter *spawn, int *score, Graphics objects);
+
+void check_collisions(GameState *currentState, Graphics *objects);
 void objects_draw(Graphics objects, Texture2D playerTex, Vector2 playerPos, Texture2D enemyTex, EnemyObject *enemies, SpawnCounter spawn, int *score);
 
 /** Loads textures, initializes rectanlges and other attributes of objects
