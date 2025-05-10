@@ -1,6 +1,6 @@
 #include "config.h"
 
-void check_collisions(Enemy *enemies, Vector2 *playerPos, Rectangle playerRec, int randomPick, int randomSide[4][2], GameState *currentState, Bullet *bullets, SpawnCounter *spawn, int *score, Graphics space)
+void check_collisions(EnemyObject *enemies, Vector2 *playerPos, Rectangle playerRec, int randomSidePick, int randomSpawnPos[4][2], GameState *currentState, BulletObject *bullets, SpawnCounter *spawn, int *score, Graphics space)
 {
 	for (int i = 0; i < spawn->count; i++) {
 		if (CheckCollisionRecs(enemies[i].enemyRec, playerRec)) {
@@ -8,15 +8,15 @@ void check_collisions(Enemy *enemies, Vector2 *playerPos, Rectangle playerRec, i
 			playerPos->y = SCREEN_HEIGHT / 2.0;
 			
 			for (int i = 0; i < spawn->count; i++) {
-				randomPick = GetRandomValue(0, 3);
-				randomizer(randomSide);
-				enemies[i].enemyPos.x = randomSide[randomPick][0];
-				enemies[i].enemyPos.y = randomSide[randomPick][1];
+				randomSidePick = GetRandomValue(0, 3);
+				randomize_spawn(randomSpawnPos);
+				enemies[i].enemyPos.x = randomSpawnPos[randomSidePick][0];
+				enemies[i].enemyPos.y = randomSpawnPos[randomSidePick][1];
 			}
 			
 			spawn->count = 1;
 
-			for (int i = 0; i < MAX_BULLETS; i++) {
+			for (int i = 0; i < BULLET_MAX; i++) {
 				for (int j = 0; j < spawn->count; j++) {
 					bullets[i].active = false;
 				}
@@ -26,16 +26,16 @@ void check_collisions(Enemy *enemies, Vector2 *playerPos, Rectangle playerRec, i
 		}
 	}
 
-	for (int i = 0; i < MAX_BULLETS; i++) {
+	for (int i = 0; i < BULLET_MAX; i++) {
 		for (int j = 0; j < spawn->count; j++) {
-		if (CheckCollisionCircleRec(bullets[i].position, 10, enemies[j].enemyRec)) {
+		if (CheckCollisionCircleRec(bullets[i].pos, 10, enemies[j].enemyRec)) {
 			bullets[i].active = false;
-			randomizer(randomSide);
+			randomize_spawn(randomSpawnPos);
 			(*score)++;
-			randomPick = GetRandomValue(0, 3);
+			randomSidePick = GetRandomValue(0, 3);
 			DrawTexture(LoadTexture("graphics/explosion.png"), enemies[j].enemyPos.x, enemies[j].enemyPos.y, WHITE);
-			enemies[j].enemyPos.x = randomSide[randomPick][0];
-			enemies[j].enemyPos.y = randomSide[randomPick][1];
+			enemies[j].enemyPos.x = randomSpawnPos[randomSidePick][0];
+			enemies[j].enemyPos.y = randomSpawnPos[randomSidePick][1];
 			}
 		}
 	}

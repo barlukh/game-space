@@ -1,6 +1,6 @@
 #include "config.h"
 
-void textures_draw(Graphics objects, Texture2D playerTex, Vector2 playerPos, Texture2D enemyTex, Enemy *enemies, SpawnCounter spawn, int *score)
+void objects_draw(Graphics objects, Texture2D playerTex, Vector2 playerPos, Texture2D enemyTex, EnemyObject *enemies, SpawnCounter spawn, int *score)
 {
 	DrawTextureEx(objects.rocketwhite.texture, objects.rocketwhite.position, 0.0f, fmin(SCALE_X, SCALE_Y), WHITE);
 	DrawTextureEx(objects.whiteshootingstar.texture, objects.whiteshootingstar.position, 0.0f, fmin(SCALE_X, SCALE_Y), WHITE);
