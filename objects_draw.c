@@ -14,7 +14,8 @@ void objects_draw(Graphics *objects)
 	DrawTexture(objects->yellowhalfmoon.tex, objects->yellowhalfmoon.pos.x, objects->yellowhalfmoon.pos.y, WHITE);
 	DrawTexture(objects->yellowshootingstar.tex, objects->yellowshootingstar.pos.x, objects->yellowshootingstar.pos.y, WHITE);
 	DrawTexture(objects->yellowstars.tex, objects->yellowstars.pos.x, objects->yellowstars.pos.y, WHITE);
-	DrawText(TextFormat("Score: %d", score), 10, SCREEN_HEIGHT - (100 * SCALE), 100 * SCALE, WHITE);
+	
+	DrawText(TextFormat("Score: %d", score), (GetScreenWidth()) * (20 / 2160.0f), (GetScreenHeight()) * (2080 / 2160.0f), 100 * SCALE, WHITE);
 	
 
 	// Player
