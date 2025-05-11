@@ -3,7 +3,7 @@
 void controls_player(Graphics *objects)
 {
 	float deltaTime = GetFrameTime();
-	float moveSpeed = PLAYER_SPEED * deltaTime;
+	float moveSpeed = PLAYER_SPEED * deltaTime * SCALE;
 
 	if (IsKeyDown(KEY_A))
 		objects->player.pos.x -= moveSpeed;
