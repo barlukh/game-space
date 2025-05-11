@@ -49,8 +49,8 @@ void objects_update(Graphics *objects)
 
 	for (int i = 0; i < BULLET_MAX; i++) {
 		if (objects->bullet[i].active) {
-			objects->bullet[i].pos.x += objects->bullet[i].dir.x * BULLET_SPEED * deltaTime;
-			objects->bullet[i].pos.y += objects->bullet[i].dir.y * BULLET_SPEED * deltaTime;
+			objects->bullet[i].pos.x += objects->bullet[i].dir.x * BULLET_SPEED * SCALE * deltaTime;
+			objects->bullet[i].pos.y += objects->bullet[i].dir.y * BULLET_SPEED * SCALE * deltaTime;
 
 			if (objects->bullet[i].pos.x < 0 || objects->bullet[i].pos.x > SCREEN_WIDTH ||
 				objects->bullet[i].pos.y < 0 || objects->bullet[i].pos.y > SCREEN_HEIGHT) {
