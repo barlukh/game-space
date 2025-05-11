@@ -16,7 +16,7 @@ void check_collisions(GameState *currentState, Graphics *objects)
 					randomSpawnPos[randomSidePick][1]};
 			}
 			
-			timer.spawn = 1;
+			timer.spawn = 0;
 
 			for (int i = 0; i < BULLET_MAX; i++) {
 				objects->bullet[i].active = false;

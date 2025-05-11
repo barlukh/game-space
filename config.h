@@ -14,8 +14,8 @@
 // Macro Definitions
 //----------------------------------------------------------------------------------
 
-#define SCREEN_WIDTH 3840 // GetScreenWidth()  
-#define SCREEN_HEIGHT 2160 // GetScreenHeight()
+#define SCREEN_WIDTH GetScreenWidth()  
+#define SCREEN_HEIGHT GetScreenHeight()
 #define SCALE fmin((float)GetScreenWidth() / 3840.0f, (float)GetScreenHeight() / 2160.0f)
 #define GAME_TITLE "Space Jam"
 #define SCREEN_FPS 60
@@ -25,8 +25,8 @@
 #define ENEMY_SPEED 400.0f
 #define ENEMY_MAX 100
 
-#define BULLET_RATE 0.05
-#define BULLET_SPEED 2000.0f
+#define BULLET_RATE 0.07
+#define BULLET_SPEED 4000.0f
 #define BULLET_MAX 50
 
 #define FRAME_THRESHOLD 0.2f
