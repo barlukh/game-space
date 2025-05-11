@@ -22,14 +22,16 @@ void intro(GameState *currentState, Graphics *objects)
 		DrawTexture(objects->yellowhalfmoon.tex, objects->yellowhalfmoon.pos.x, objects->yellowhalfmoon.pos.y, WHITE);
 		DrawTexture(objects->yellowshootingstar.tex, objects->yellowshootingstar.pos.x, objects->yellowshootingstar.pos.y, WHITE);
 		DrawTexture(objects->yellowstars.tex, objects->yellowstars.pos.x, objects->yellowstars.pos.y, WHITE);
+	
+	
+		DrawText(TextFormat("Score: %d", score), (GetScreenWidth() / 2) - (MeasureText(TextFormat("Score: %d", score),
+		100 * SCALE) / 2), (GetScreenHeight()) * (1700 / 2160.0f), 100 * SCALE, WHITE);
 		
-		int text1Width = MeasureText(TextFormat("Score: %d", score), 100 * SCALE);
-		int text2Width = MeasureText("W, S, A, D to move. Arrow keys to shoot.", 50 * SCALE);
-		int text3Width = MeasureText("Press SPACE to start!", 50 * SCALE);
+		DrawText(TextFormat("W, S, A, D to move. Arrow keys to shoot."), (GetScreenWidth() / 2) - (MeasureText(TextFormat("W, S, A, D to move. Arrow keys to shoot."),
+		50 * SCALE) / 2), (GetScreenHeight()) * (1950 / 2160.0f), 50 * SCALE, ORANGE);
 		
-		DrawText(TextFormat("Score: %d", score), SCREEN_WIDTH / 2 - text1Width / 2, SCREEN_HEIGHT - (450 * SCALE), 100 * SCALE, WHITE);
-		DrawText("W, S, A, D to move. Arrow keys to shoot.", SCREEN_WIDTH / 2 - text2Width / 2, SCREEN_HEIGHT - (200 * SCALE), 50 * SCALE, ORANGE);
-		DrawText("Press SPACE to start!", SCREEN_WIDTH / 2 - text3Width / 2, SCREEN_HEIGHT - (100 * SCALE), 50 * SCALE, ORANGE);
+		DrawText(TextFormat("Press SPACE to start!"), (GetScreenWidth() / 2) - (MeasureText(TextFormat("Press SPACE to start!"),
+		50 * SCALE) / 2), (GetScreenHeight()) * (2050 / 2160.0f), 50 * SCALE, ORANGE);
 
 	EndDrawing();
 
