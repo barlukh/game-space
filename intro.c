@@ -5,6 +5,7 @@ void intro(GameState *currentState, Graphics *objects)
 	BeginDrawing();
 		
 		ClearBackground(BLACK);
+		
 		DrawTexture(objects->blueplanet.tex, objects->blueplanet.pos.x, objects->blueplanet.pos.y, WHITE);
 		DrawTexture(objects->earth.tex, objects->earth.pos.x, objects->earth.pos.y, WHITE);
 		DrawTexture(objects->purpleplanet.tex, objects->purpleplanet.pos.x, objects->purpleplanet.pos.y, WHITE);
@@ -22,13 +23,13 @@ void intro(GameState *currentState, Graphics *objects)
 		DrawTexture(objects->yellowshootingstar.tex, objects->yellowshootingstar.pos.x, objects->yellowshootingstar.pos.y, WHITE);
 		DrawTexture(objects->yellowstars.tex, objects->yellowstars.pos.x, objects->yellowstars.pos.y, WHITE);
 		
-		int text1Width = MeasureText(TextFormat("Score: %d", score), 100 * SCALE_X);
-		int text2Width = MeasureText("W, S, A, D to move. Arrows to change bullets' direction.", 50 * SCALE_X);
-		int text3Width = MeasureText("Press SPACE to start!", 50 * SCALE_X);
+		int text1Width = MeasureText(TextFormat("Score: %d", score), 100 * SCALE);
+		int text2Width = MeasureText("W, S, A, D to move. Arrow keys to shoot.", 50 * SCALE);
+		int text3Width = MeasureText("Press SPACE to start!", 50 * SCALE);
 		
-		DrawText(TextFormat("Score: %d", score), SCREEN_WIDTH / 2 - text1Width / 2, SCREEN_HEIGHT + (100 * SCALE_Y), 100 * SCALE_X, WHITE);
-		DrawText("W, S, A, D to move. Arrow keys to shoot.", SCREEN_WIDTH / 2 - text2Width / 2, SCREEN_HEIGHT, 50 * SCALE_X, ORANGE);
-		DrawText("Press SPACE to start!", SCREEN_WIDTH / 2 - text3Width / 2, SCREEN_HEIGHT - (100 * SCALE_Y), 50 * SCALE_X, ORANGE);
+		DrawText(TextFormat("Score: %d", score), SCREEN_WIDTH / 2 - text1Width / 2, SCREEN_HEIGHT - (450 * SCALE), 100 * SCALE, WHITE);
+		DrawText("W, S, A, D to move. Arrow keys to shoot.", SCREEN_WIDTH / 2 - text2Width / 2, SCREEN_HEIGHT - (200 * SCALE), 50 * SCALE, ORANGE);
+		DrawText("Press SPACE to start!", SCREEN_WIDTH / 2 - text3Width / 2, SCREEN_HEIGHT - (100 * SCALE), 50 * SCALE, ORANGE);
 
 	EndDrawing();
 

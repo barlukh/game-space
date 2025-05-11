@@ -19,13 +19,15 @@ int main(void)
 	SetTargetFPS(SCREEN_FPS);
 	SetWindowState(FLAG_FULLSCREEN_MODE);
 	DisableCursor();
-
+	
 
 	// Initialize objects
 
 	Graphics objects;
 	objects_load(&objects);
 
+
+	// Main loop
 
 	while (!WindowShouldClose())
 	{
@@ -38,22 +40,12 @@ int main(void)
 			case GAMEPLAY:
 			{
 				controls_player(&objects);
-
 				objects_update(&objects);
-				
-				check_collisions(enemies, &playerPos, playerRec, randomSidePick, randomSpawnPos, &currentState, bullets, &spawn, &score, objects);
-				
+				check_collisions(&currentState, &objects);
 
 				BeginDrawing();
-				
-					ClearBackground(BLACK);
-					objects_draw(objects, playerTex[timer.frame], playerPos, enemyTex, enemies, spawn, &score);
 
-
-					for (int i = 0; i < BULLET_MAX; i++) {
-						if (bullets[i].active)
-							DrawCircleV(bullets[i].pos, 10, YELLOW);
-					}
+					objects_draw(&objects);
 
 				EndDrawing();
 
@@ -63,6 +55,7 @@ int main(void)
 				break;
 		}
 	}
+
 
 	// Clean up resources after exiting the game loop
 	

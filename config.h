@@ -14,35 +14,24 @@
 // Macro Definitions
 //----------------------------------------------------------------------------------
 
-#define SCREEN_WIDTH 2560 // GetScreenWidth()
-#define SCREEN_HEIGHT 1440 //GetScreenHeight()
-#define SCALE_X (float)GetScreenWidth() / 3840.0f
-#define SCALE_Y (float)GetScreenHeight() / 2160.0f
+#define SCREEN_WIDTH 3840 // GetScreenWidth()  
+#define SCREEN_HEIGHT 2160 // GetScreenHeight()
+#define SCALE fmin((float)GetScreenWidth() / 3840.0f, (float)GetScreenHeight() / 2160.0f)
 #define GAME_TITLE "Space Jam"
 #define SCREEN_FPS 60
 
-#define PLAYER_SPEED 20
+#define PLAYER_SPEED 1000
 
-#define ENEMY_SPEED 6.0f
+#define ENEMY_SPEED 400.0f
 #define ENEMY_MAX 100
 
-#define BULLET_SPEED 30.0f
+#define BULLET_RATE 0.05
+#define BULLET_SPEED 2000.0f
 #define BULLET_MAX 50
 
 #define FRAME_THRESHOLD 0.2f
 #define SPAWN_THRESHOLD 3.0f
 #define TOTAL_FRAMES 2
-
-
-//----------------------------------------------------------------------------------
-// Global Variables
-//----------------------------------------------------------------------------------
-
-extern int score;  
-extern int randomSidePick;
-extern int randomSpawnPos[4][2];
-
-extern Time timer;
 
 
 //----------------------------------------------------------------------------------
@@ -91,6 +80,7 @@ typedef struct Graphics {
 	PlayerObject player;
 	StaticObject blueplanet;
 	StaticObject earth;
+	StaticObject explosion;
 	StaticObject purpleplanet;
 	StaticObject redplanet;
 	StaticObject rocketwhite;
@@ -106,6 +96,17 @@ typedef struct Graphics {
 	StaticObject yellowshootingstar;
 	StaticObject yellowstars;
 } Graphics;
+
+
+//----------------------------------------------------------------------------------
+// Global Variables
+//----------------------------------------------------------------------------------
+
+extern int score;  
+extern int randomSidePick;
+extern int randomSpawnPos[4][2];
+
+extern Time timer;
 
 
 //----------------------------------------------------------------------------------
@@ -125,8 +126,18 @@ void intro(GameState *currentState, Graphics *objects);
  */
 void controls_player(Graphics *objects);
 
+/** Checks for collisions of sprites
+ * @param currentState Current state of the game
+ * @param objects Pointer to struct of all game objects
+ * @return None
+ */
 void check_collisions(GameState *currentState, Graphics *objects);
-void objects_draw(Graphics objects, Texture2D playerTex, Vector2 playerPos, Texture2D enemyTex, EnemyObject *enemies, SpawnCounter spawn, int *score);
+
+/** Draws all necessary sprites on the screen
+ * @param objects Pointer to struct of all game objects
+ * @return None
+ */
+void objects_draw(Graphics *objects);
 
 /** Loads textures, initializes rectanlges and other attributes of objects
  * @param objects Pointer to struct of all game objects

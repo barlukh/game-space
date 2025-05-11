@@ -9,14 +9,15 @@ void objects_unload(Graphics *objects)
 
 	// Player
 
-	UnoadTexture(objects->player.tex[0]);
-	UnoadTexture(objects->player.tex[1]);
+	UnloadTexture(objects->player.tex[0]);
+	UnloadTexture(objects->player.tex[1]);
 	
 
 	// Static objects
 
 	UnloadTexture(objects->blueplanet.tex);
 	UnloadTexture(objects->earth.tex);
+	UnloadTexture(objects->explosion.tex);
 	UnloadTexture(objects->purpleplanet.tex);
 	UnloadTexture(objects->redplanet.tex);
 	UnloadTexture(objects->rocketwhite.tex);

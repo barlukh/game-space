@@ -12,7 +12,7 @@ void objects_load(Graphics *objects)
 	// Enemies
 	
 	Image img = LoadImage("graphics/ufo.png");
-	ImageResize(&img, img.width * SCALE_X, img.height * SCALE_Y);
+	ImageResize(&img, img.width * SCALE, img.height * SCALE);
 	objects->enemy[0].tex = LoadTextureFromImage(img);
 	UnloadImage(img);
 
@@ -35,13 +35,13 @@ void objects_load(Graphics *objects)
 
 	// Player
 	
-	Image img = LoadImage("graphics/astronaut1.png");
-	ImageResize(&img, img.width * SCALE_X, img.height * SCALE_Y);
+	img = LoadImage("graphics/astronaut1.png");
+	ImageResize(&img, img.width * SCALE, img.height * SCALE);
 	objects->player.tex[0] = LoadTextureFromImage(img);
 	UnloadImage(img);
 
-	Image img = LoadImage("graphics/astronaut2.png");
-	ImageResize(&img, img.width * SCALE_X, img.height * SCALE_Y);
+	img = LoadImage("graphics/astronaut2.png");
+	ImageResize(&img, img.width * SCALE, img.height * SCALE);
 	objects->player.tex[1] = LoadTextureFromImage(img);
 	UnloadImage(img);
 	
@@ -54,99 +54,105 @@ void objects_load(Graphics *objects)
 
 	// Static objects
 	
-	Image img = LoadImage("graphics/blueplanet.png");
-	ImageResize(&img, img.width * SCALE_X, img.height * SCALE_Y);
+	img = LoadImage("graphics/blueplanet.png");
+	ImageResize(&img, img.width * SCALE, img.height * SCALE);
 	objects->blueplanet.tex = LoadTextureFromImage(img);
 	UnloadImage(img);
-	objects->blueplanet.pos = (Vector2){1500 * SCALE_X, 200 * SCALE_Y};
+	objects->blueplanet.pos = (Vector2){ (1500 / 3840.0f) * GetScreenWidth(), (200 / 2160.0f) * GetScreenHeight() };
 
-	Image img = LoadImage("graphics/earth.png");
-	ImageResize(&img, img.width * SCALE_X, img.height * SCALE_Y);
+	img = LoadImage("graphics/earth.png");
+	ImageResize(&img, img.width * SCALE, img.height * SCALE);
 	objects->earth.tex = LoadTextureFromImage(img);
 	UnloadImage(img);
-	objects->earth.pos = (Vector2){1792 * SCALE_X, 952 * SCALE_Y};
+	objects->earth.pos = (Vector2){ (1792 / 3840.0f) * GetScreenWidth(), (952 / 2160.0f) * GetScreenHeight() };
+
+	img = LoadImage("graphics/explosion.png");
+	ImageResize(&img, img.width * SCALE, img.height * SCALE);
+	objects->explosion.tex = LoadTextureFromImage(img);
+	UnloadImage(img);
+	objects->explosion.pos = (Vector2){ (0 / 3840.0f) * GetScreenWidth(), (0 / 2160.0f) * GetScreenHeight() };
 	
-	Image img = LoadImage("graphics/purpleplanet.png");
-	ImageResize(&img, img.width * SCALE_X, img.height * SCALE_Y);
+	img = LoadImage("graphics/purpleplanet.png");
+	ImageResize(&img, img.width * SCALE, img.height * SCALE);
 	objects->purpleplanet.tex = LoadTextureFromImage(img);
 	UnloadImage(img);
-	objects->purpleplanet.pos = (Vector2){600 * SCALE_X, 1300 * SCALE_Y};
+	objects->purpleplanet.pos = (Vector2){ (600 / 3840.0f) * GetScreenWidth(), (1300 / 2160.0f) * GetScreenHeight() };
 	
-	Image img = LoadImage("graphics/redplanet.png");
-	ImageResize(&img, img.width * SCALE_X, img.height * SCALE_Y);
+	img = LoadImage("graphics/redplanet.png");
+	ImageResize(&img, img.width * SCALE, img.height * SCALE);
 	objects->redplanet.tex = LoadTextureFromImage(img);
 	UnloadImage(img);
-	objects->redplanet.pos = (Vector2){400 * SCALE_X, 500 * SCALE_Y};
+	objects->redplanet.pos = (Vector2){ (400 / 3840.0f) * GetScreenWidth(), (500 / 2160.0f) * GetScreenHeight() };
 	
-	Image img = LoadImage("graphics/rocketwhite.png");
-	ImageResize(&img, img.width * SCALE_X, img.height * SCALE_Y);
+	img = LoadImage("graphics/rocketwhite.png");
+	ImageResize(&img, img.width * SCALE, img.height * SCALE);
 	objects->rocketwhite.tex = LoadTextureFromImage(img);
 	UnloadImage(img);
-	objects->rocketwhite.pos = (Vector2){100 * SCALE_X, 1900 * SCALE_Y};
+	objects->rocketwhite.pos = (Vector2){ (100 / 3840.0f) * GetScreenWidth(), (1900 / 2160.0f) * GetScreenHeight() };
 	
-	Image img = LoadImage("graphics/satellite.png");
-	ImageResize(&img, img.width * SCALE_X, img.height * SCALE_Y);
+	img = LoadImage("graphics/satellite.png");
+	ImageResize(&img, img.width * SCALE, img.height * SCALE);
 	objects->satellite.tex = LoadTextureFromImage(img);
 	UnloadImage(img);
-	objects->satellite.pos = (Vector2){2050 * SCALE_X, 850 * SCALE_Y};
+	objects->satellite.pos = (Vector2){ (2050 / 3840.0f) * GetScreenWidth(), (850 / 2160.0f) * GetScreenHeight() };
 	
-	Image img = LoadImage("graphics/saturn.png");
-	ImageResize(&img, img.width * SCALE_X, img.height * SCALE_Y);
+	img = LoadImage("graphics/saturn.png");
+	ImageResize(&img, img.width * SCALE, img.height * SCALE);
 	objects->saturn.tex = LoadTextureFromImage(img);
 	UnloadImage(img);
-	objects->saturn.pos = (Vector2){800 * SCALE_X, 100 * SCALE_Y};
+	objects->saturn.pos = (Vector2){ (800 / 3840.0f) * GetScreenWidth(), (100 / 2160.0f) * GetScreenHeight() };
 	
-	Image img = LoadImage("graphics/sun.png");
-	ImageResize(&img, img.width * SCALE_X, img.height * SCALE_Y);
+	img = LoadImage("graphics/sun.png");
+	ImageResize(&img, img.width * SCALE, img.height * SCALE);
 	objects->sun.tex = LoadTextureFromImage(img);
 	UnloadImage(img);
-	objects->sun.pos = (Vector2){1000 * SCALE_X, 500 * SCALE_Y};
+	objects->sun.pos = (Vector2){ (1000 / 3840.0f) * GetScreenWidth(), (500 / 2160.0f) * GetScreenHeight() };
 	
-	Image img = LoadImage("graphics/title.png");
-	ImageResize(&img, img.width * SCALE_X, img.height * SCALE_Y);
+	img = LoadImage("graphics/title.png");
+	ImageResize(&img, img.width * SCALE, img.height * SCALE);
 	objects->title.tex = LoadTextureFromImage(img);
 	UnloadImage(img);
-	objects->title.pos = (Vector2){1120 * SCALE_X, 1350 * SCALE_Y};
+	objects->title.pos = (Vector2){ (1120 / 3840.0f) * GetScreenWidth(), (1350 / 2160.0f) * GetScreenHeight() };
 	
-	Image img = LoadImage("graphics/whiteshootingstar.png");
-	ImageResize(&img, img.width * SCALE_X, img.height * SCALE_Y);
+	img = LoadImage("graphics/whiteshootingstar.png");
+	ImageResize(&img, img.width * SCALE, img.height * SCALE);
 	objects->whiteshootingstar.tex = LoadTextureFromImage(img);
 	UnloadImage(img);
-	objects->whiteshootingstar.pos = (Vector2){1000 * SCALE_X, 300 * SCALE_Y};
+	objects->whiteshootingstar.pos = (Vector2){ (1000 / 3840.0f) * GetScreenWidth(), (300 / 2160.0f) * GetScreenHeight() };
 	
-	Image img = LoadImage("graphics/whitestar.png");
-	ImageResize(&img, img.width * SCALE_X, img.height * SCALE_Y);
+	img = LoadImage("graphics/whitestar.png");
+	ImageResize(&img, img.width * SCALE, img.height * SCALE);
 	objects->whitestar.tex = LoadTextureFromImage(img);
 	UnloadImage(img);
-	objects->whitestar.pos = (Vector2){3500 * SCALE_X, 700 * SCALE_Y};
+	objects->whitestar.pos = (Vector2){ (3500 / 3840.0f) * GetScreenWidth(), (700 / 2160.0f) * GetScreenHeight() };
 	
-	Image img = LoadImage("graphics/whitestars1.png");
-	ImageResize(&img, img.width * SCALE_X, img.height * SCALE_Y);
+	img = LoadImage("graphics/whitestars1.png");
+	ImageResize(&img, img.width * SCALE, img.height * SCALE);
 	objects->whitestars1.tex = LoadTextureFromImage(img);
 	UnloadImage(img);
-	objects->whitestars1.pos = (Vector2){3000 * SCALE_X, 400 * SCALE_Y};
+	objects->whitestars1.pos = (Vector2){ (3000 / 3840.0f) * GetScreenWidth(), (400 / 2160.0f) * GetScreenHeight() };
 	
-	Image img = LoadImage("graphics/whitestars2.png");
-	ImageResize(&img, img.width * SCALE_X, img.height * SCALE_Y);
+	img = LoadImage("graphics/whitestars2.png");
+	ImageResize(&img, img.width * SCALE, img.height * SCALE);
 	objects->whitestars2.tex = LoadTextureFromImage(img);
 	UnloadImage(img);
-	objects->whitestars2.pos = (Vector2){200 * SCALE_X, 1100 * SCALE_Y};
+	objects->whitestars2.pos = (Vector2){ (200 / 3840.0f) * GetScreenWidth(), (1100 / 2160.0f) * GetScreenHeight() };
 	
-	Image img = LoadImage("graphics/yellowhalfmoon.png");
-	ImageResize(&img, img.width * SCALE_X, img.height * SCALE_Y);
+	img = LoadImage("graphics/yellowhalfmoon.png");
+	ImageResize(&img, img.width * SCALE, img.height * SCALE);
 	objects->yellowhalfmoon.tex = LoadTextureFromImage(img);
 	UnloadImage(img);
-	objects->yellowhalfmoon.pos = (Vector2){100 * SCALE_X, 100 * SCALE_Y};
+	objects->yellowhalfmoon.pos = (Vector2){ (100 / 3840.0f) * GetScreenWidth(), (100 / 2160.0f) * GetScreenHeight() };
 	
-	Image img = LoadImage("graphics/yellowshootingstar.png");
-	ImageResize(&img, img.width * SCALE_X, img.height * SCALE_Y);
+	img = LoadImage("graphics/yellowshootingstar.png");
+	ImageResize(&img, img.width * SCALE, img.height * SCALE);
 	objects->yellowshootingstar.tex = LoadTextureFromImage(img);
 	UnloadImage(img);
-	objects->yellowshootingstar.pos = (Vector2){300 * SCALE_X, 150 * SCALE_Y};
+	objects->yellowshootingstar.pos = (Vector2){ (300 / 3840.0f) * GetScreenWidth(), (150 / 2160.0f) * GetScreenHeight() };
 	
-	Image img = LoadImage("graphics/yellowstars.png");
-	ImageResize(&img, img.width * SCALE_X, img.height * SCALE_Y);
+	img = LoadImage("graphics/yellowstars.png");
+	ImageResize(&img, img.width * SCALE, img.height * SCALE);
 	objects->yellowstars.tex = LoadTextureFromImage(img);
 	UnloadImage(img);
-	objects->yellowstars.pos = (Vector2){3650 * SCALE_X, 100 * SCALE_Y};
+	objects->yellowstars.pos = (Vector2){ (3650 / 3840.0f) * GetScreenWidth(), (100 / 2160.0f) * GetScreenHeight() };
 }

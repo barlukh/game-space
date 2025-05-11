@@ -22,21 +22,20 @@ void objects_update(Graphics *objects)
 	// Bullets
 	
 	static double lastShotTime = 0;
-	const double fireRate = 0.25;
 	float deltaTime = GetFrameTime();
 
-	Vector2 bulletDir = { 0, 0 };
-	if (IsKeyDown(KEY_W)) bulletDir.y = -1;
-	if (IsKeyDown(KEY_S)) bulletDir.y = 1;
-	if (IsKeyDown(KEY_A)) bulletDir.x = -1;
-	if (IsKeyDown(KEY_D)) bulletDir.x = 1;
+	Vector2 bulletDir = {0, 0};
+	if (IsKeyDown(KEY_UP)) bulletDir.y = -1;
+	if (IsKeyDown(KEY_DOWN)) bulletDir.y = 1;
+	if (IsKeyDown(KEY_LEFT)) bulletDir.x = -1;
+	if (IsKeyDown(KEY_RIGHT)) bulletDir.x = 1;
 
 	if (bulletDir.x != 0 && bulletDir.y != 0) {
 		bulletDir.x *= 0.707f;
 		bulletDir.y *= 0.707f;
 	}
 
-	if ((bulletDir.x != 0 || bulletDir.y != 0) && GetTime() - lastShotTime >= fireRate) {
+	if ((bulletDir.x != 0 || bulletDir.y != 0) && GetTime() - lastShotTime >= BULLET_RATE) {
 		for (int i = 0; i < BULLET_MAX; i++) {
 			if (!objects->bullet[i].active) {
 				objects->bullet[i].pos = (Vector2){objects->player.pos.x + 20, objects->player.pos.y + 10};
@@ -62,15 +61,14 @@ void objects_update(Graphics *objects)
 	
 
 	// Enemies
-	
-	float deltaTime = GetFrameTime();
+
 
 	for (int i = 0; i < timer.spawn; i++) {
 		float dx = objects->player.pos.x - objects->enemy[i].pos.x;
 		float dy = objects->player.pos.y - objects->enemy[i].pos.y;
 	
-		dx *= SCALE_X;
-		dy *= SCALE_Y;
+		dx *= SCALE;
+		dy *= SCALE;
 	
 		float length = sqrtf(dx * dx + dy * dy);
 		if (length != 0) {
@@ -78,8 +76,8 @@ void objects_update(Graphics *objects)
 			dy /= length;
 		}
 	
-		objects->enemy[i].pos.x += dx * ENEMY_SPEED * SCALE_X * deltaTime;
-		objects->enemy[i].pos.y += dy * ENEMY_SPEED * SCALE_Y * deltaTime;
+		objects->enemy[i].pos.x += dx * ENEMY_SPEED * SCALE * deltaTime;
+		objects->enemy[i].pos.y += dy * ENEMY_SPEED * SCALE * deltaTime;
 	
 		objects->enemy[i].rec.x = objects->enemy[i].pos.x;
 		objects->enemy[i].rec.y = objects->enemy[i].pos.y;
