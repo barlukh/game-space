@@ -35,9 +35,9 @@ void check_collisions(GameState *currentState, Graphics *objects)
 				objects->bullet[i].active = false;
 				randomSidePick = GetRandomValue(0, 3);
 				randomize_spawn();
+				DrawTexture(objects->explosion.tex, objects->enemy[j].pos.x, objects->enemy[j].pos.y, WHITE);
 				objects->enemy[j].pos = (Vector2){randomSpawnPos[randomSidePick][0],
 					randomSpawnPos[randomSidePick][1]};
-				DrawTexture(objects->explosion.tex, objects->enemy[j].pos.x, objects->enemy[j].pos.y, WHITE);
 				score++;
 			}
 		}
