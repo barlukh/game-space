@@ -38,7 +38,7 @@ void objects_update(Graphics *objects)
 	if ((bulletDir.x != 0 || bulletDir.y != 0) && GetTime() - lastShotTime >= BULLET_RATE) {
 		for (int i = 0; i < BULLET_MAX; i++) {
 			if (!objects->bullet[i].active) {
-				objects->bullet[i].pos = (Vector2){objects->player.pos.x + 20, objects->player.pos.y + 10};
+				objects->bullet[i].pos = (Vector2){objects->player.pos.x + objects->player.tex->width, objects->player.pos.y + (objects->player.tex->height / 2)};
 				objects->bullet[i].dir = bulletDir;
 				objects->bullet[i].active = true;
 				lastShotTime = GetTime();
