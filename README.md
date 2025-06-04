@@ -10,7 +10,7 @@ The task was to create a game within 48 hours with a theme 'World worth saving'.
 Shoot aliens, save the Earth, have fun.
 
 ## Installation
-You can just run the executable 'game'. The file is compiled with a static Raylib library, so there should be no other missing dependencies.
+This game is only compiled for Linux. Run ./game. The file is compiled with a static Raylib library, so there should be no other missing dependencies.
 
 ## Credits & License
 All original images created by peony. [link](https://opengameart.org/content/space-pixel-art)<br/>
